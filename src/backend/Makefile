@@ -1,8 +1,8 @@
-CC=g++ 
-CFLAGS=
+CC=gcc 
+CFLAGS= -w
 SRCDIR= src
 BINDIR= bin
-SRCEXT= cpp
+SRCEXT= c
 SOURCES := $(shell find $(SRCDIR) -type f -name *.$(SRCEXT))
 OBJECTS := $(SOURCES:.$(SRCEXT)=.o)
 OUTPUT= backend 
@@ -20,6 +20,8 @@ build: $(OBJECTS)
 exec: build
 	./$(BINDIR)/$(OUTPUT)
 
+clean:
+	@$(RM) -r src/*.o
 
 debug: build
 	gdb $(BINDIR)/$(OUTPUT)
