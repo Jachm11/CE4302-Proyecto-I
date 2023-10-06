@@ -247,7 +247,7 @@ public class Gamemaster : MonoBehaviour
             Debug.Log("Sent JSON data to server: " + json);
 
             // Wait for a response from the server
-            byte[] buffer = new byte[20000];
+            byte[] buffer = new byte[40000];
             int bytesRead = stream.Read(buffer, 0, buffer.Length);
             string response = Encoding.UTF8.GetString(buffer, 0, bytesRead);
 
@@ -306,6 +306,8 @@ public class Gamemaster : MonoBehaviour
                 cpus[transaction.core].ChangeInstruction(newInst);
                 yield return new WaitForSeconds(wait);
                 cpuCache[transaction.core].MoveDown();
+                yield return new WaitForSeconds(wait/2);
+                cacheBus[transaction.core].MoveDown();
             }
 
             yield return new WaitForSeconds(wait);
@@ -415,6 +417,7 @@ public class Gamemaster : MonoBehaviour
             log.text +=  "Total read requests: " + execution.report.read_requests_count + "\n";
             log.text +=  "Total write requests: " + execution.report.write_requests_count + "\n";
             log.text +=  "Total RAM reads: " + execution.report.ram_reads_counter + "\n";
+            log.text +=  "Total write responses: " + execution.report.write_responses + "\n";
             log.text +=  "Total read responses: " + execution.report.read_responses + "\n";
             log.text +=  "Total cache invalidates: " + execution.report.invalidates_counter + "\n";
 
@@ -471,6 +474,7 @@ public class Report
     public int read_requests_count;
     public int write_requests_count;
     public int ram_reads_counter;
+    public int write_responses;
     public int read_responses;
     public int invalidates_counter;
 }

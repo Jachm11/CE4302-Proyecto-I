@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Bus : MonoBehaviour
@@ -35,19 +37,25 @@ public class Bus : MonoBehaviour
 
         int direction = 1;
         int multiplier = 1;
+
+        Debug.Log("Origin " + idOrg);
+
+        Debug.Log("Destination " + idDest);
+
+
         // Reset the object to the orginal position
         switch (idOrg)
         {
             
             case -1:
 
-                light2D.transform.localPosition = originalPosition;
+                light2D.transform.localPosition = originalPosition + new Vector2(700f,0f);
                 light2D.color = Color.white;
                 if (idDest == 0)
                 {
                     direction = 1;
                 }
-                if (idDest == 2)
+                else if (idDest == 2)
                 {
                     direction = -1;
                 }
@@ -92,22 +100,22 @@ public class Bus : MonoBehaviour
 
         }
 
-        if (idDest == idOrg){
-            direction = 0;
-            light2D.color = Color.red;
+        Debug.Log("direction " + direction);
+
+        if (Math.Abs(idDest) == Math.Abs(idOrg)){
+            multiplier = 0;
         }
-        else if (idDest != 1 && idDest != -1)
+        else if (Math.Abs(idDest) != 1 && Math.Abs(idOrg) != 1)
         {
             multiplier = 2;
-        }
-        else if (idOrg == 1 && idDest == -1){
-            direction = 0;
         }
         else
         {
             multiplier = 1;
         }
 
+        Debug.Log("multiplier " + multiplier);
+        
         Vector2 targetPosition = light2D.transform.localPosition - new Vector3(direction * 700f * multiplier, 0f, 0f);
 
         // Reset the intensity to 0

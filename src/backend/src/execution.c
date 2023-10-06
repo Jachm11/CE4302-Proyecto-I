@@ -801,10 +801,6 @@ void PE_execute(int id)
     PE *pe = PEs[id];
     Instruction* instruction = dequeue(pe->instructions);
 
-    //Borrar esta vrga todo ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    pe->reg = pe->reg+1;
-    //
-
     switch (instruction->type)
     {
         case Read:
@@ -907,7 +903,6 @@ void* interconnect_thread_f()
             finish_transaction();
             print_Caches(caches);
             print_RAM(RAM);
-            print_log();
             sem_post(&sem_debug_prints);
 
             /// Release PE to continue execution
