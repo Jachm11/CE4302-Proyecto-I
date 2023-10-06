@@ -4,12 +4,9 @@ using UnityEngine;
 using Newtonsoft.Json;
 using TMPro;
 using System.Net.Sockets;
-using Unity.VisualScripting;
-using Unity.Collections;
 using UnityEngine.UI;
 using System;
 using System.Text;
-using UnityEditor.PackageManager;
 using System.IO;
 
 public class Gamemaster : MonoBehaviour
@@ -192,6 +189,10 @@ public class Gamemaster : MonoBehaviour
                 string newText = "0x" + (i).ToString("X") + " : " + (i+1)*1000;
                 ram.ChangeLine(newText,i);
             }
+        for (int i = 0; i < 3; i++)
+        {
+            regs[i] = (i+1)*100;
+        }
     }
 
     public void ChangeProtocol()
