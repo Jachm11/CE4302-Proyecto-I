@@ -18,7 +18,7 @@ void start_transaction(int count, Instruction instruction, int core_id);
 void finish_transaction();
 
 
-void add_event_move(char* event_type, int start_id, int end_id);
+void add_event_move(int start_id, int end_id);
 void add_event_edit(int element_id, int tag, int data, char* target_state);
 
 void add_initial_cores_state(PE** PEs);

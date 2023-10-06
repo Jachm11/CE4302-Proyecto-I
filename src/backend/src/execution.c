@@ -203,14 +203,14 @@ void MESI_check_flush_to_memory(int cache_id, Cache_line* line, bool is_remote, 
             printf_cyan_on();
 
             if(strcmp(str_locality, "remote") == 0){
-                add_event_move("sharing data",cache_id , cache_id);
+                add_event_move(cache_id , cache_id);
 
             }
 
             add_event_edit(cache_id, line->tag, line->data, str_end_state);
             printf("Interconnect/MESI_check_flush_to_memory/$:%d T:%d/Implicit %s transition: %s->%s/Flush (%d) to RAM[%d]\n", cache_id, line->tag, str_locality, str_start_state, str_end_state, line->data, line->tag);
             printf_color_reset();
-            add_event_move("writing to ram",cache_id , -1);
+            add_event_move(cache_id , -1);
             add_event_edit(-1, line->tag, line->data, "RAM");
             sem_post(&sem_debug_prints);
             set_RAM_block(RAM, line->tag, line->data, &RAM_writes_counter);
@@ -221,7 +221,7 @@ void MESI_check_flush_to_memory(int cache_id, Cache_line* line, bool is_remote, 
             sem_wait(&sem_debug_prints);
             printf_yellow_on();
             if(strcmp(str_locality, "remote") == 0){
-                add_event_move("sharing data",cache_id , cache_id);
+                add_event_move(cache_id , cache_id);
 
             }
             add_event_edit(cache_id, line->tag, line->data, str_end_state);
@@ -260,11 +260,11 @@ void MOESI_check_flush_to_memory(int cache_id, Cache_line* line, bool is_remote,
             sem_wait(&sem_debug_prints);
             printf_cyan_on();
             if(strcmp(str_locality, "remote") == 0){
-                add_event_move("sharing data",cache_id , cache_id);
+                add_event_move(cache_id , cache_id);
             }
             printf("Interconnect/MOESI_check_flush_to_memory/$:%d T:%d/Implicit %s transition: %s->%s/Flush (%d) to RAM[%d]\n", cache_id, line->tag, str_locality, str_start_state, str_end_state, line->data, line->tag);
             printf_color_reset();
-            add_event_move("writing to ram",cache_id , -1);
+            add_event_move(cache_id , -1);
             add_event_edit(-1, line->tag, line->data, "RAM");
             sem_post(&sem_debug_prints);
 
@@ -276,7 +276,7 @@ void MOESI_check_flush_to_memory(int cache_id, Cache_line* line, bool is_remote,
             sem_wait(&sem_debug_prints);
             printf_yellow_on();
             if(strcmp(str_locality, "remote") == 0){
-                add_event_move("sharing data",cache_id, cache_id);
+                add_event_move(cache_id, cache_id);
 
             }
             add_event_edit(cache_id, line->tag, line->data, str_end_state);
@@ -532,7 +532,7 @@ void MESI(MT_msg* msg, bool local_PE_has_the_data, Queue* remote_data_owners, Ca
         //todo perfilacion /////////////////////////////////////////////////////////////////////////////////////////////
         sem_wait(&sem_debug_prints);
         printf_yellow_on();
-        add_event_edit(msg->cache_id, msg->mem_addr, current_editing_line->data,"exclusive");
+        add_event_edit(msg->cache_id, msg->mem_addr, current_editing_line->data,"Exclusive");
         printf("Interconnect/MESI/$:%d T:%d/local transition: Invalid->Exclusive\n", msg->cache_id, msg->mem_addr);
         printf_color_reset();
         sem_post(&sem_debug_prints);
@@ -553,7 +553,7 @@ void MESI(MT_msg* msg, bool local_PE_has_the_data, Queue* remote_data_owners, Ca
         //todo perfilacion /////////////////////////////////////////////////////////////////////////////////////////////
         sem_wait(&sem_debug_prints);
         printf_purple_on();
-        add_event_move("sharing data",sharing_cache_id, msg->cache_id);
+        add_event_move(sharing_cache_id, msg->cache_id);
         printf("Interconnect/MESI/$:%d T:%d/Data (%d) move between caches: %d -> %d\n", msg->cache_id, msg->mem_addr, data_from_remote_cache, sharing_cache_id, msg->cache_id);
         printf_color_reset();
         sem_post(&sem_debug_prints);
@@ -587,7 +587,7 @@ void MESI(MT_msg* msg, bool local_PE_has_the_data, Queue* remote_data_owners, Ca
         sem_wait(&sem_debug_prints);
         printf_yellow_on();
         char* current_state = get_state_str(current_editing_line->state);
-        add_event_edit(msg->cache_id, msg->mem_addr, current_editing_line->data,"shared");
+        add_event_edit(msg->cache_id, msg->mem_addr, current_editing_line->data,"Shared");
         printf("Interconnect/MESI/$:%d T:%d/local transition: %s->%s\n", msg->cache_id, msg->mem_addr, get_state_str(current_editing_line->state), get_state_str(current_editing_line->state));
         printf_color_reset();
         sem_post(&sem_debug_prints);
@@ -602,7 +602,7 @@ void MESI(MT_msg* msg, bool local_PE_has_the_data, Queue* remote_data_owners, Ca
         
         sem_wait(&sem_debug_prints);
         printf_yellow_on();
-        add_event_edit(msg->cache_id, msg->mem_addr, current_editing_line->data,"modified");
+        add_event_edit(msg->cache_id, msg->mem_addr, current_editing_line->data,"Modified");
         printf("Interconnect/MESI/$:%d T:%d/local transition: Invalid->Modified\n", msg->cache_id, msg->mem_addr);
         printf_color_reset();
         sem_post(&sem_debug_prints);
@@ -616,7 +616,7 @@ void MESI(MT_msg* msg, bool local_PE_has_the_data, Queue* remote_data_owners, Ca
         //todo perfilacion /////////////////////////////////////////////////////////////////////////////////////////////
         sem_wait(&sem_debug_prints);
         printf_yellow_on();
-        add_event_edit(msg->cache_id, msg->mem_addr, current_editing_line->data,"modified");
+        add_event_edit(msg->cache_id, msg->mem_addr, current_editing_line->data,"Modified");
         printf("Interconnect/MESI/$:%d T:%d/local transition: %s->Modified\n", msg->cache_id, msg->mem_addr, get_state_str(current_editing_line->state));
         printf_color_reset();
         sem_post(&sem_debug_prints);
@@ -631,7 +631,7 @@ void MESI(MT_msg* msg, bool local_PE_has_the_data, Queue* remote_data_owners, Ca
         //todo perfilacion /////////////////////////////////////////////////////////////////////////////////////////////
         sem_wait(&sem_debug_prints);
         printf_yellow_on();
-        add_event_edit(msg->cache_id, msg->mem_addr, current_editing_line->data,"modified");
+        add_event_edit(msg->cache_id, msg->mem_addr, current_editing_line->data,"Modified");
         printf("Interconnect/MESI/$:%d T:%d/local transition: Shared->Modified\n", msg->cache_id, msg->mem_addr);
         printf_color_reset();
         sem_post(&sem_debug_prints);
@@ -649,7 +649,7 @@ void MOESI(MT_msg* msg, bool local_PE_has_the_data, Queue* remote_data_owners, C
         //todo perfilacion /////////////////////////////////////////////////////////////////////////////////////////////
         sem_wait(&sem_debug_prints);
         printf_yellow_on();
-        add_event_edit(msg->cache_id, msg->mem_addr, current_editing_line->data,"exclusive");
+        add_event_edit(msg->cache_id, msg->mem_addr, current_editing_line->data,"Exclusive");
         printf("Interconnect/MOESI/$:%d T:%d/local transition: Invalid->Exclusive\n", msg->cache_id, msg->mem_addr);
         printf_color_reset();
         sem_post(&sem_debug_prints);

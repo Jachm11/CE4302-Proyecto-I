@@ -46,11 +46,10 @@ void start_transaction(int count, Instruction instruction, int core_id){
     cJSON_AddStringToObject(current_transaction, "type", instruction_type);
 }
 
-void add_event_move(char* event_type, int start_id, int end_id){
+void add_event_move(int start_id, int end_id){
 
     cJSON* event = cJSON_CreateObject();
-    cJSON_AddStringToObject(event, "event", "move");
-    cJSON_AddStringToObject(event, "event_type", event_type);
+    cJSON_AddStringToObject(event, "event_type", "move");
     cJSON_AddNumberToObject(event, "start_id", start_id);
     cJSON_AddNumberToObject(event, "end_id", end_id);
     cJSON_AddItemToArray(current_events, event);
@@ -59,7 +58,7 @@ void add_event_move(char* event_type, int start_id, int end_id){
 
 void add_event_edit(int element_id, int tag, int data, char* target_state){
     cJSON* event = cJSON_CreateObject();
-    cJSON_AddStringToObject(event, "event", "edit");
+    cJSON_AddStringToObject(event, "event_type", "edit");
     cJSON_AddNumberToObject(event, "element_id", element_id);
     cJSON_AddNumberToObject(event, "tag", tag);
     cJSON_AddNumberToObject(event, "data", data);
