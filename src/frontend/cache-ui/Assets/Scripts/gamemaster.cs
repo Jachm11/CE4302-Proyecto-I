@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using TMPro;
 using Unity.VisualScripting;
 using Unity.Collections;
+using UnityEngine.UI;
 
 public class Gamemaster : MonoBehaviour
 {
@@ -18,10 +19,17 @@ public class Gamemaster : MonoBehaviour
     public string jsonData;
     public bool run;
     public TextMeshProUGUI log;
+    public Button runButton;
+    public Button stepButton;
+    public Button resetButton;
+    public Button protocolButton;
 
     private Execution execution;
     private int[] regs = new int[3];
     private string protocol;
+    private int transactionIndex = 0;
+    private bool done = false;
+    private float wait = 1.0f;
 
     void Start()
     {
@@ -93,25 +101,67 @@ public class Gamemaster : MonoBehaviour
         ram = GameObject.FindGameObjectWithTag("RAM").GetComponent<Ram>();
 
     }
-    public void Init()
+    void Init()
     {
 
-        protocol = "MESI" ;
+        protocol = "MESI";
+
         execution = JsonConvert.DeserializeObject<Execution>(jsonData);
 
         log.text += "STARTING EMULATION WITH PROCOTOL " + protocol + "";
 
+    }
+
+    public void Step()
+    {
+
+        runButton.interactable = false;
+        protocolButton.interactable = false;
+        if (transactionIndex == 0)
+        {
+            Init();
+        }
+        StartCoroutine(ProcessTransaction());
+        transactionIndex++;
+
+    }
+
+    public void Run()
+    {
+
+        stepButton.interactable = false;
+        runButton.interactable = false;
+        protocolButton.interactable = false;
+        wait = 2.0f;
+        Init();
         StartCoroutine(ProcessTransactions());
+
+    }
+
+    public void Reset()
+    {
+        runButton.interactable = true;
+        stepButton.interactable = true;
+        protocolButton.interactable = true;
+        transactionIndex = 0;
+
     }
 
     IEnumerator ProcessTransactions()
     {
-
-        float wait = 1.0f;
-        execution = JsonConvert.DeserializeObject<Execution>(jsonData);
-
-        foreach (Transaction transaction in execution.transactions)
+        while (!done)
         {
+            yield return StartCoroutine(ProcessTransaction());
+            transactionIndex++;
+        }
+    }
+
+    IEnumerator ProcessTransaction()
+    {
+
+        if (transactionIndex < execution.transactions.Count)
+        {
+            Transaction transaction = execution.transactions[transactionIndex];
 
             // Log new instruction
             log.text += "\nCore " + transaction.core + " " + transaction.type + "\n";
@@ -219,6 +269,12 @@ public class Gamemaster : MonoBehaviour
                  // Wait for 1 second before the next iteration
                 yield return new WaitForSeconds(wait);
             }
+        }
+        else
+        {
+            // PRINT REPORT
+
+            done = true;
         }
     }
 }
