@@ -4,7 +4,6 @@
 
 #include <stdint.h>
 #include <stdbool.h>
-#include "cJSON.h"
 
 ///Enums
 typedef enum protocol_state_t
@@ -32,6 +31,8 @@ typedef struct SLL_node_t
     void* data;
     struct SLL_node* next;
 } SLL_node;
+
+
 typedef struct Queue_t
 {
     SLL_node* first;
@@ -133,10 +134,11 @@ typedef struct MT_msg_t
     bool MT_request_type;
     int mem_addr;
     int data;
+    Instruction instruction;
 } MT_msg;
 
 // Messages structs methods
-MT_msg* generate_MT_msg(MT_msg* msg, int cache_id, bool request_type, int mem_addr, int data);
+MT_msg* generate_MT_msg(MT_msg* msg, int cache_id, bool request_type, int mem_addr, int data, Instruction instruction);
 
 
 ///RAM methods
@@ -174,7 +176,7 @@ void printf_color_reset();
 
 
 // Execution
-void start_execution(bool is_MESI_, cJSON* execution);
+void start_execution(bool is_MESI_);
 
 
 

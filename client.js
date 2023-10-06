@@ -1,3 +1,4 @@
+const { write, writeFileSync } = require('fs');
 var net = require('net');
 
 var host = '127.0.0.1';
@@ -9,7 +10,7 @@ socket.connect(port, host, () => {
 
     const json = {
         command: "start",
-        protocol: "MESI"
+        protocol: "MOESI"
     }
 
     socket.write(JSON.stringify(json) + "\n");
@@ -17,6 +18,7 @@ socket.connect(port, host, () => {
 
 socket.on('data', (data) => {
 
-    console.log(`${data}`);
+    const json = JSON.parse(data);
+    writeFileSync("report.json", JSON.stringify(json));
     socket.destroy();
 });

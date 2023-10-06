@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <pthread.h>
 #include <semaphore.h>
+#include <string.h>
 #include <unistd.h>
 //Hs
 #include "cJSON.h"
@@ -176,9 +177,9 @@ void MESI_check_flush_to_memory(int cache_id, Cache_line* line, bool is_remote, 
 {
     if(line->state!=Invalid)
     {
-        const char* str_start_state;
-        const char* str_end_state;
-        const char* str_locality;
+        char* str_start_state;
+        char* str_end_state;
+        char* str_locality;
 
         str_start_state = get_state_str(line->state);
         str_end_state = get_state_str(target_state);
@@ -200,8 +201,17 @@ void MESI_check_flush_to_memory(int cache_id, Cache_line* line, bool is_remote, 
             //todo perfilacion /////////////////////////////////////////////////////////////////////////////////////////////
             sem_wait(&sem_debug_prints);
             printf_cyan_on();
+
+            if(strcmp(str_locality, "remote") == 0){
+                add_event_move("sharing data",cache_id , cache_id);
+
+            }
+
+            add_event_edit(cache_id, line->tag, line->data, str_end_state);
             printf("Interconnect/MESI_check_flush_to_memory/$:%d T:%d/Implicit %s transition: %s->%s/Flush (%d) to RAM[%d]\n", cache_id, line->tag, str_locality, str_start_state, str_end_state, line->data, line->tag);
             printf_color_reset();
+            add_event_move("writing to ram",cache_id , -1);
+            add_event_edit(-1, line->tag, line->data, "RAM");
             sem_post(&sem_debug_prints);
             set_RAM_block(RAM, line->tag, line->data, &RAM_writes_counter);
         }
@@ -210,6 +220,11 @@ void MESI_check_flush_to_memory(int cache_id, Cache_line* line, bool is_remote, 
             //todo perfilacion /////////////////////////////////////////////////////////////////////////////////////////////
             sem_wait(&sem_debug_prints);
             printf_yellow_on();
+            if(strcmp(str_locality, "remote") == 0){
+                add_event_move("sharing data",cache_id , cache_id);
+
+            }
+            add_event_edit(cache_id, line->tag, line->data, str_end_state);
             printf("Interconnect/MESI_check_flush_to_memory/$:%d T:%d/Implicit %s transition: %s->%s\n", cache_id, line->tag, str_locality, str_start_state, str_end_state);
             printf_color_reset();
             sem_post(&sem_debug_prints);
@@ -220,9 +235,9 @@ void MOESI_check_flush_to_memory(int cache_id, Cache_line* line, bool is_remote,
 {
     if(line->state!=Invalid)
     {
-        const char* str_start_state;
-        const char* str_end_state;
-        const char* str_locality;
+        char* str_start_state;
+        char* str_end_state;
+        char* str_locality;
 
         str_start_state = get_state_str(line->state);
         str_end_state = get_state_str(target_state);
@@ -244,8 +259,13 @@ void MOESI_check_flush_to_memory(int cache_id, Cache_line* line, bool is_remote,
             //todo perfilacion /////////////////////////////////////////////////////////////////////////////////////////////
             sem_wait(&sem_debug_prints);
             printf_cyan_on();
+            if(strcmp(str_locality, "remote") == 0){
+                add_event_move("sharing data",cache_id , cache_id);
+            }
             printf("Interconnect/MOESI_check_flush_to_memory/$:%d T:%d/Implicit %s transition: %s->%s/Flush (%d) to RAM[%d]\n", cache_id, line->tag, str_locality, str_start_state, str_end_state, line->data, line->tag);
             printf_color_reset();
+            add_event_move("writing to ram",cache_id , -1);
+            add_event_edit(-1, line->tag, line->data, "RAM");
             sem_post(&sem_debug_prints);
 
             set_RAM_block(RAM, line->tag, line->data, &RAM_writes_counter);
@@ -255,6 +275,11 @@ void MOESI_check_flush_to_memory(int cache_id, Cache_line* line, bool is_remote,
             //todo perfilacion /////////////////////////////////////////////////////////////////////////////////////////////
             sem_wait(&sem_debug_prints);
             printf_yellow_on();
+            if(strcmp(str_locality, "remote") == 0){
+                add_event_move("sharing data",cache_id, cache_id);
+
+            }
+            add_event_edit(cache_id, line->tag, line->data, str_end_state);
             printf("Interconnect/MOESI_check_flush_to_memory/$:%d T:%d/Implicit %s transition: %s->%s\n", cache_id, line->tag, str_locality, str_start_state, str_end_state);
             printf_color_reset();
             sem_post(&sem_debug_prints);
@@ -463,6 +488,19 @@ void add_increments_counter()
 }
 void print_log()
 {
+
+    add_report(MAX_CORES,
+               MAX_INSTRUCTIONS,
+               CACHE_ENTRIES,
+               RAM_ENTRIES, 
+               increments_counter, 
+               interconnect_read_requests_counter, 
+               interconnect_write_requests_counter,
+               RAM_reads_counter, 
+               RAM_writes_counter,
+               cache_data_shares_counter, 
+               invalidates_counter
+    );
     //todo perfilacion /////////////////////////////////////////////////////////////////////////////////////////////
     printf("PEs: %d\n", MAX_CORES);
     printf("Instructions per core: %d\n", MAX_INSTRUCTIONS);
@@ -485,19 +523,20 @@ void print_log()
 /// Protocols
 void MESI(MT_msg* msg, bool local_PE_has_the_data, Queue* remote_data_owners, Cache_line* current_editing_line)
 {
-    cJSON* transition = cJSON_CreateObject();
     if(msg->MT_request_type==READ_REQUEST && !local_PE_has_the_data && Queue_is_empty(remote_data_owners))///000 I-E
     {
+
+        MESI_check_flush_to_memory(msg->cache_id, current_editing_line, false, Invalid);
+        set_cache_line(caches, msg->cache_id, msg->mem_addr%CACHE_ENTRIES, msg->mem_addr, true, false, Exclusive, get_RAM_block(RAM, msg->mem_addr, &RAM_reads_counter) );
+    
         //todo perfilacion /////////////////////////////////////////////////////////////////////////////////////////////
         sem_wait(&sem_debug_prints);
         printf_yellow_on();
-        add_event_edit(transition, msg->cache_id, msg->mem_addr, current_editing_line->data,"exlusive");
+        add_event_edit(msg->cache_id, msg->mem_addr, current_editing_line->data,"exclusive");
         printf("Interconnect/MESI/$:%d T:%d/local transition: Invalid->Exclusive\n", msg->cache_id, msg->mem_addr);
         printf_color_reset();
         sem_post(&sem_debug_prints);
 
-        MESI_check_flush_to_memory(msg->cache_id, current_editing_line, false, Invalid);
-        set_cache_line(caches, msg->cache_id, msg->mem_addr%CACHE_ENTRIES, msg->mem_addr, true, false, Exclusive, get_RAM_block(RAM, msg->mem_addr, &RAM_reads_counter) );
     }
     else if((msg->MT_request_type == READ_REQUEST) && !local_PE_has_the_data && !Queue_is_empty(remote_data_owners))///001 I->S
     {
@@ -507,25 +546,27 @@ void MESI(MT_msg* msg, bool local_PE_has_the_data, Queue* remote_data_owners, Ca
 
         //todo perfilacion /////////////////////////////////////////////////////////////////////////////////////////////
         cache_data_shares_counter++;
+        MESI_set_remote_share_states(remote_data_owners, msg);
+        MESI_check_flush_to_memory(msg->cache_id, current_editing_line, false, Invalid);
+        set_cache_line(caches, msg->cache_id, msg->mem_addr%CACHE_ENTRIES, msg->mem_addr, true, false, Shared, data_from_remote_cache);
 
         //todo perfilacion /////////////////////////////////////////////////////////////////////////////////////////////
         sem_wait(&sem_debug_prints);
         printf_purple_on();
-        //add_event_edit(transition, msg->cache_id, msg->mem_addr, "exlusive");
+        add_event_move("sharing data",sharing_cache_id, msg->cache_id);
         printf("Interconnect/MESI/$:%d T:%d/Data (%d) move between caches: %d -> %d\n", msg->cache_id, msg->mem_addr, data_from_remote_cache, sharing_cache_id, msg->cache_id);
         printf_color_reset();
         sem_post(&sem_debug_prints);
 
+
         //todo perfilacion /////////////////////////////////////////////////////////////////////////////////////////////
         sem_wait(&sem_debug_prints);
         printf_yellow_on();
+        add_event_edit(msg->cache_id, msg->mem_addr, current_editing_line->data, "Shared");
         printf("Interconnect/MESI/$:%d T:%d/local transition: Invalid->Shared\n", msg->cache_id, msg->mem_addr);
         printf_color_reset();
         sem_post(&sem_debug_prints);
 
-        MESI_set_remote_share_states(remote_data_owners, msg);
-        MESI_check_flush_to_memory(msg->cache_id, current_editing_line, false, Invalid);
-        set_cache_line(caches, msg->cache_id, msg->mem_addr%CACHE_ENTRIES, msg->mem_addr, true, false, Shared, data_from_remote_cache);
     }
     else if(msg->MT_request_type==READ_REQUEST && local_PE_has_the_data && Queue_is_empty(remote_data_owners))///010 M->M o E->E o S->S
     {
@@ -534,7 +575,9 @@ void MESI(MT_msg* msg, bool local_PE_has_the_data, Queue* remote_data_owners, Ca
         //todo perfilacion /////////////////////////////////////////////////////////////////////////////////////////////
         sem_wait(&sem_debug_prints);
         printf_yellow_on();
-        printf("Interconnect/MESI/$:%d T:%d/local transition: %s->%s\n", msg->cache_id, msg->mem_addr, get_state_str(current_editing_line->state), get_state_str(current_editing_line->state));
+        char* current_state = get_state_str(current_editing_line->state);
+        add_event_edit(msg->cache_id, msg->mem_addr, current_editing_line->data,current_state);
+        printf("Interconnect/MESI/$:%d T:%d/local transition: %s->%s\n", msg->cache_id, msg->mem_addr, current_state, current_state);
         printf_color_reset();
         sem_post(&sem_debug_prints);
     }
@@ -543,6 +586,8 @@ void MESI(MT_msg* msg, bool local_PE_has_the_data, Queue* remote_data_owners, Ca
         //todo perfilacion /////////////////////////////////////////////////////////////////////////////////////////////
         sem_wait(&sem_debug_prints);
         printf_yellow_on();
+        char* current_state = get_state_str(current_editing_line->state);
+        add_event_edit(msg->cache_id, msg->mem_addr, current_editing_line->data,"shared");
         printf("Interconnect/MESI/$:%d T:%d/local transition: %s->%s\n", msg->cache_id, msg->mem_addr, get_state_str(current_editing_line->state), get_state_str(current_editing_line->state));
         printf_color_reset();
         sem_post(&sem_debug_prints);
@@ -550,43 +595,47 @@ void MESI(MT_msg* msg, bool local_PE_has_the_data, Queue* remote_data_owners, Ca
     else if(msg->MT_request_type==WRITE_REQUEST && !local_PE_has_the_data)///100 y 101 I->M
     {
         //todo perfilacion /////////////////////////////////////////////////////////////////////////////////////////////
-        sem_wait(&sem_debug_prints);
-        printf_yellow_on();
-        printf("Interconnect/MESI/$:%d T:%d/local transition: Invalid->Modified\n", msg->cache_id, msg->mem_addr);
-        printf_color_reset();
-        sem_post(&sem_debug_prints);
-
         read_exclusive_request();
         MESI_broadcast_invalidate(remote_data_owners, msg);
         MESI_check_flush_to_memory(msg->cache_id, current_editing_line, false, Invalid);
         set_cache_line(caches, msg->cache_id, msg->mem_addr%CACHE_ENTRIES, msg->mem_addr, true, true, Modified, msg->data);
+        
+        sem_wait(&sem_debug_prints);
+        printf_yellow_on();
+        add_event_edit(msg->cache_id, msg->mem_addr, current_editing_line->data,"modified");
+        printf("Interconnect/MESI/$:%d T:%d/local transition: Invalid->Modified\n", msg->cache_id, msg->mem_addr);
+        printf_color_reset();
+        sem_post(&sem_debug_prints);
     }
     else if(msg->MT_request_type==WRITE_REQUEST && local_PE_has_the_data && Queue_is_empty(remote_data_owners))///110 E->M o M->M o S->M
     {
         // Is possible to get an exclusive Shared by remote eviction
+        read_exclusive_request();
+        set_cache_line(caches, msg->cache_id, msg->mem_addr%CACHE_ENTRIES, msg->mem_addr, true, true, Modified, msg->data);
 
         //todo perfilacion /////////////////////////////////////////////////////////////////////////////////////////////
         sem_wait(&sem_debug_prints);
         printf_yellow_on();
+        add_event_edit(msg->cache_id, msg->mem_addr, current_editing_line->data,"modified");
         printf("Interconnect/MESI/$:%d T:%d/local transition: %s->Modified\n", msg->cache_id, msg->mem_addr, get_state_str(current_editing_line->state));
         printf_color_reset();
         sem_post(&sem_debug_prints);
 
-        read_exclusive_request();
-        set_cache_line(caches, msg->cache_id, msg->mem_addr%CACHE_ENTRIES, msg->mem_addr, true, true, Modified, msg->data);
     }
     else if(msg->MT_request_type==WRITE_REQUEST && local_PE_has_the_data && !Queue_is_empty(remote_data_owners))///111 S->M
     {
+        read_exclusive_request();
+        MESI_broadcast_invalidate(remote_data_owners, msg);
+        set_cache_line(caches, msg->cache_id, msg->mem_addr%CACHE_ENTRIES, msg->mem_addr, true, true, Modified, msg->data);
+        
         //todo perfilacion /////////////////////////////////////////////////////////////////////////////////////////////
         sem_wait(&sem_debug_prints);
         printf_yellow_on();
+        add_event_edit(msg->cache_id, msg->mem_addr, current_editing_line->data,"modified");
         printf("Interconnect/MESI/$:%d T:%d/local transition: Shared->Modified\n", msg->cache_id, msg->mem_addr);
         printf_color_reset();
         sem_post(&sem_debug_prints);
 
-        read_exclusive_request();
-        MESI_broadcast_invalidate(remote_data_owners, msg);
-        set_cache_line(caches, msg->cache_id, msg->mem_addr%CACHE_ENTRIES, msg->mem_addr, true, true, Modified, msg->data);
     }
 }
 
@@ -594,15 +643,17 @@ void MOESI(MT_msg* msg, bool local_PE_has_the_data, Queue* remote_data_owners, C
 {
     if(msg->MT_request_type==READ_REQUEST && !local_PE_has_the_data && Queue_is_empty(remote_data_owners))///000 I-E !
     {
+        MOESI_check_flush_to_memory(msg->cache_id, current_editing_line, false, Invalid);
+        set_cache_line(caches, msg->cache_id, msg->mem_addr%CACHE_ENTRIES, msg->mem_addr, true, false, Exclusive, get_RAM_block(RAM, msg->mem_addr, &RAM_reads_counter));
+        
         //todo perfilacion /////////////////////////////////////////////////////////////////////////////////////////////
         sem_wait(&sem_debug_prints);
         printf_yellow_on();
+        add_event_edit(msg->cache_id, msg->mem_addr, current_editing_line->data,"exclusive");
         printf("Interconnect/MOESI/$:%d T:%d/local transition: Invalid->Exclusive\n", msg->cache_id, msg->mem_addr);
         printf_color_reset();
         sem_post(&sem_debug_prints);
 
-        MOESI_check_flush_to_memory(msg->cache_id, current_editing_line, false, Invalid);
-        set_cache_line(caches, msg->cache_id, msg->mem_addr%CACHE_ENTRIES, msg->mem_addr, true, false, Exclusive, get_RAM_block(RAM, msg->mem_addr, &RAM_reads_counter));
     }
     else if((msg->MT_request_type == READ_REQUEST) && !local_PE_has_the_data && !Queue_is_empty(remote_data_owners))///001 I->S !
     {
@@ -614,6 +665,10 @@ void MOESI(MT_msg* msg, bool local_PE_has_the_data, Queue* remote_data_owners, C
         //todo perfilacion /////////////////////////////////////////////////////////////////////////////////////////////
         cache_data_shares_counter++;
 
+        MOESI_set_remote_share_states(remote_data_owners, msg);
+        MOESI_check_flush_to_memory(msg->cache_id, current_editing_line, false, Invalid);
+        set_cache_line(caches, msg->cache_id, msg->mem_addr%CACHE_ENTRIES, msg->mem_addr, true, inherit_dirty_bit, Shared, data_from_remote_cache);
+        
         //todo perfilacion /////////////////////////////////////////////////////////////////////////////////////////////
         sem_wait(&sem_debug_prints);
         printf_purple_on();
@@ -628,9 +683,6 @@ void MOESI(MT_msg* msg, bool local_PE_has_the_data, Queue* remote_data_owners, C
         printf_color_reset();
         sem_post(&sem_debug_prints);
 
-        MOESI_set_remote_share_states(remote_data_owners, msg);
-        MOESI_check_flush_to_memory(msg->cache_id, current_editing_line, false, Invalid);
-        set_cache_line(caches, msg->cache_id, msg->mem_addr%CACHE_ENTRIES, msg->mem_addr, true, inherit_dirty_bit, Shared, data_from_remote_cache);
     }
     else if(msg->MT_request_type==READ_REQUEST && local_PE_has_the_data && Queue_is_empty(remote_data_owners))///010 M->M o E->E o S->S !
     {
@@ -639,7 +691,9 @@ void MOESI(MT_msg* msg, bool local_PE_has_the_data, Queue* remote_data_owners, C
         //todo perfilacion /////////////////////////////////////////////////////////////////////////////////////////////
         sem_wait(&sem_debug_prints);
         printf_yellow_on();
-        printf("Interconnect/MOESI/$:%d T:%d/local transition: %s->%s\n", msg->cache_id, msg->mem_addr, get_state_str(current_editing_line->state), get_state_str(current_editing_line->state));
+        char* target_state = get_state_str(current_editing_line->state);
+        add_event_edit(msg->cache_id, msg->mem_addr, current_editing_line->data, target_state);
+        printf("Interconnect/MOESI/$:%d T:%d/local transition: %s->%s\n", msg->cache_id, msg->mem_addr, get_state_str(current_editing_line->state), target_state);
         printf_color_reset();
         sem_post(&sem_debug_prints);
     }
@@ -648,62 +702,71 @@ void MOESI(MT_msg* msg, bool local_PE_has_the_data, Queue* remote_data_owners, C
         //todo perfilacion /////////////////////////////////////////////////////////////////////////////////////////////
         sem_wait(&sem_debug_prints);
         printf_yellow_on();
-        printf("Interconnect/MOESI/$:%d T:%d/local transition: %s->%s\n", msg->cache_id, msg->mem_addr, get_state_str(current_editing_line->state), get_state_str(current_editing_line->state));
+        char* target_state = get_state_str(current_editing_line->state);
+        add_event_edit(msg->cache_id, msg->mem_addr, current_editing_line->data, target_state);
+        printf("Interconnect/MOESI/$:%d T:%d/local transition: %s->%s\n", msg->cache_id, msg->mem_addr, get_state_str(current_editing_line->state), target_state);
         printf_color_reset();
         sem_post(&sem_debug_prints);
     }
     else if(msg->MT_request_type==WRITE_REQUEST && !local_PE_has_the_data)///100 y 101 I->M
     {
-        //todo perfilacion /////////////////////////////////////////////////////////////////////////////////////////////
-        sem_wait(&sem_debug_prints);
-        printf_yellow_on();
-        printf("Interconnect/MOESI/$:%d T:%d/local transition: Invalid->Modified\n", msg->cache_id, msg->mem_addr);
-        printf_color_reset();
-        sem_post(&sem_debug_prints);
-
         read_exclusive_request();
         MOESI_broadcast_invalidate(remote_data_owners, msg);
         MOESI_check_flush_to_memory(msg->cache_id, current_editing_line, false, Invalid);
         set_cache_line(caches, msg->cache_id, msg->mem_addr%CACHE_ENTRIES, msg->mem_addr, true, true, Modified, msg->data);
+        
+        //todo perfilacion /////////////////////////////////////////////////////////////////////////////////////////////
+        sem_wait(&sem_debug_prints);
+        printf_yellow_on();
+        add_event_edit(msg->cache_id, msg->mem_addr, current_editing_line->data, "Modified");
+        printf("Interconnect/MOESI/$:%d T:%d/local transition: Invalid->Modified\n", msg->cache_id, msg->mem_addr);
+        printf_color_reset();
+        sem_post(&sem_debug_prints);
+
     }
     else if(msg->MT_request_type==WRITE_REQUEST && local_PE_has_the_data && Queue_is_empty(remote_data_owners))///110 E->M o M->M o S->M o O->M !
     {
         // Is possible to get an exclusive Shared by remote eviction
+        read_exclusive_request();
+        set_cache_line(caches, msg->cache_id, msg->mem_addr%CACHE_ENTRIES, msg->mem_addr, true, true, Modified, msg->data);
 
         //todo perfilacion /////////////////////////////////////////////////////////////////////////////////////////////
         sem_wait(&sem_debug_prints);
         printf_yellow_on();
+        add_event_edit(msg->cache_id, msg->mem_addr, current_editing_line->data, "Modified");
         printf("Interconnect/MOESI/$:%d T:%d/local transition: %s->Modified\n", msg->cache_id, msg->mem_addr, get_state_str(current_editing_line->state));
         printf_color_reset();
         sem_post(&sem_debug_prints);
 
-        read_exclusive_request();
-        set_cache_line(caches, msg->cache_id, msg->mem_addr%CACHE_ENTRIES, msg->mem_addr, true, true, Modified, msg->data);
     }
     else if(msg->MT_request_type==WRITE_REQUEST && local_PE_has_the_data && !Queue_is_empty(remote_data_owners))///111 S->M o O->M !
     {
-        //todo perfilacion /////////////////////////////////////////////////////////////////////////////////////////////
-        sem_wait(&sem_debug_prints);
-        printf_yellow_on();
-        printf("Interconnect/MOESI/$:%d T:%d/local transition: %s->Modified\n", msg->cache_id, msg->mem_addr, get_state_str(current_editing_line->state));
-        printf_color_reset();
-        sem_post(&sem_debug_prints);
-
         read_exclusive_request();
         MOESI_broadcast_invalidate(remote_data_owners, msg);
         set_cache_line(caches, msg->cache_id, msg->mem_addr%CACHE_ENTRIES, msg->mem_addr, true, true, Modified, msg->data);
+        
+        
+        //todo perfilacion /////////////////////////////////////////////////////////////////////////////////////////////
+        sem_wait(&sem_debug_prints);
+        printf_yellow_on();
+        char* target_state = get_state_str(current_editing_line->state);
+        add_event_edit(msg->cache_id, msg->mem_addr, current_editing_line->data, target_state);
+        printf("Interconnect/MOESI/$:%d T:%d/local transition: %s->Modified\n", msg->cache_id, msg->mem_addr, target_state);
+        printf_color_reset();
+        sem_post(&sem_debug_prints);
+
     }
 }
 
 
 ///Threading
-void PE_MT(int id, bool request_type, int mem_addr, int data)
+void PE_MT(int id, bool request_type, int mem_addr, int data, Instruction instruction)
 {
     PE* pe = PEs[id];
     pe->MT_done=false;
 
     MT_msg* msg = malloc(sizeof(MT_msg));
-    generate_MT_msg(msg, id, request_type, mem_addr, data);
+    generate_MT_msg(msg, id, request_type, mem_addr, data, instruction);
 
     //todo perfilacion /////////////////////////////////////////////////////////////////////////////////////////////
     sem_wait(&sem_debug_prints);
@@ -740,17 +803,19 @@ void PE_execute(int id)
     switch (instruction->type)
     {
         case Read:
-            PE_MT(id, READ_REQUEST, instruction->mem_addr,  pe->reg);
+            PE_MT(id, READ_REQUEST, instruction->mem_addr,  pe->reg, *instruction);
             break;
 
         case Write:
-            PE_MT(id, WRITE_REQUEST, instruction->mem_addr,  pe->reg);
+            PE_MT(id, WRITE_REQUEST, instruction->mem_addr,  pe->reg, *instruction);
             break;
 
         case Increment:
             //todo perfilacion /////////////////////////////////////////////////////////////////////////////////////////////
             sem_wait(&sem_debug_prints);
             printf_green_on();
+            start_transaction(-1, *instruction, id);
+            finish_transaction();
             printf("PE: %d. Increment executed: Reg %d->%d\n", id, pe->reg, pe->reg+1);
             printf_color_reset();
             sem_post(&sem_debug_prints);
@@ -790,7 +855,6 @@ void* PE_thread_f()
 }
 void* interconnect_thread_f()
 {
-    cJSON* x = cJSON_CreateObject();
     while(!end_total_execution())
     {
         if(!Queue_is_empty(interconnect->messages))
@@ -808,12 +872,14 @@ void* interconnect_thread_f()
             sem_wait(&sem_debug_prints);
             printf("Interconnect receive (%d)\n{\n\t", interconnect_read_requests_counter+interconnect_write_requests_counter);
             print_MT_msg(msg);
+            start_transaction( interconnect_read_requests_counter+interconnect_write_requests_counter, msg->instruction, msg->cache_id);
             printf("}\n");
             sem_post(&sem_debug_prints);
 
             bool local_PE_has_the_data = is_data_in_cache(msg->cache_id, msg->mem_addr);
             Queue* remote_data_owners = get_remote_data_owners(msg->cache_id, msg->mem_addr);
             Cache_line* current_editing_line = get_cache_line(caches, msg->cache_id, msg->mem_addr%CACHE_ENTRIES);
+
 
             if(msg->MT_request_type == READ_REQUEST)
             {
@@ -833,6 +899,7 @@ void* interconnect_thread_f()
 
             //todo perfilacion /////////////////////////////////////////////////////////////////////////////////////////////
             sem_wait(&sem_debug_prints);
+            finish_transaction();
             print_Caches(caches);
             print_RAM(RAM);
             print_log();
@@ -874,7 +941,7 @@ void join_threads()
 
 
 ///Main
-void start_execution(bool is_MESI_, cJSON* execution)
+void start_execution(bool is_MESI_)
 {
     is_MESI = is_MESI_;
 
@@ -883,7 +950,8 @@ void start_execution(bool is_MESI_, cJSON* execution)
     initialize_PEs(PEs);
     //construct_specific_PEs();
     construct_PEs(PEs);
-    // print_PEs(PEs);
+    add_initial_cores_state(PEs);
+    //print_PEs(PEs);
 
     // // /// Build caches
     initialize_Caches(caches);
@@ -910,16 +978,16 @@ void start_execution(bool is_MESI_, cJSON* execution)
     start_threads();
     join_threads();
 
-    clean();
 
-     print_PEs(PEs);
-     print_Caches(caches);
-     print_interconnect();
-     print_RAM(RAM);
+    // print_PEs(PEs);
+    // print_Caches(caches);
+    // print_interconnect();
+    // print_RAM(RAM);
 
-    printf("\n");
-    printf("End!\n");
+    // printf("\n");
+    // printf("End!\n");
 
-    printf("\n");
+    // printf("\n");
     print_log();
+    clean();
 }

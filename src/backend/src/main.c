@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 #include <unistd.h>
 #include <arpa/inet.h>
 #include "serialize.h"
@@ -47,26 +48,24 @@ char* process_command(char* buffer){
 
         cJSON *client_command = cJSON_Parse(buffer);
         char* command = cJSON_GetObjectItem(client_command, "command")->valuestring;
-
-        printf("command: %s \n", command);
-
         if(strcmp(command, "start") == 0){
 
             // Start execution
+            printf("command %s \n", command);
 
             char* protocol = cJSON_GetObjectItem(client_command, "protocol")->valuestring;
-            cJSON* execution = createExecution(); 
-            printf("protocol: %s \n", protocol);
             if(strcmp(protocol, "MESI") == 0){
-                printf("entra a MESI \n");
-                start_execution(true, execution);
-                cJSON_AddStringToObject(execution, "response", "exito");
-                return cJSON_PrintUnformatted(execution);
+                start_events_recolection();
+                start_execution(true);
+                cJSON* result = finish_events_recolection();
+                return cJSON_PrintUnformatted(result);
             }
 
-            if(strcmp(command, "MOESI")){
-                start_execution(false, execution);
-                return cJSON_PrintUnformatted(execution);
+            if(strcmp(protocol, "MOESI") == 0){
+                start_events_recolection();
+                start_execution(false);
+                cJSON* result = finish_events_recolection();
+                return cJSON_PrintUnformatted(result);
             }
             else {
                 // Invalid protocol
@@ -79,12 +78,7 @@ char* process_command(char* buffer){
 
 
 int main(){
-
-    void* obj;
-    start_execution(true, (cJSON*) obj);
-
-    return 0;
-
+    srand(time(NULL));
     create_socket("127.0.0.1", 4000);
     char buffer[MAX_BUFFER_SIZE];
     while (1) {
@@ -111,7 +105,7 @@ int main(){
             // You can send a response back to the client using send() here
             break;
         }
-        
+
         char* response = process_command(buffer);
 
         if (send(client_socket, response, strlen(response), 0) == -1) {
