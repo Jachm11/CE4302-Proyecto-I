@@ -96,7 +96,7 @@ public class Bus : MonoBehaviour
             direction = 0;
             light2D.color = Color.red;
         }
-        else if (idDest != 1 || idDest != -1)
+        else if (idDest != 1 && idDest != -1)
         {
             multiplier = 2;
         }

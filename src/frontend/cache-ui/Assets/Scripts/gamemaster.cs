@@ -21,6 +21,7 @@ public class Gamemaster : MonoBehaviour
 
     private Execution execution;
     private int[] regs = new int[3];
+    private string protocol;
 
     void Start()
     {
@@ -94,7 +95,11 @@ public class Gamemaster : MonoBehaviour
     }
     public void Init()
     {
+
+        protocol = "MESI" ;
         execution = JsonConvert.DeserializeObject<Execution>(jsonData);
+
+        log.text += "STARTING EMULATION WITH PROCOTOL " + protocol + "";
 
         StartCoroutine(ProcessTransactions());
     }
@@ -109,7 +114,7 @@ public class Gamemaster : MonoBehaviour
         {
 
             // Log new instruction
-            log.text += "Core " + transaction.core + " " + transaction.type + "\n";
+            log.text += "\nCore " + transaction.core + " " + transaction.type + "\n";
 
             if (transaction.type == "INC")
             {
@@ -168,13 +173,13 @@ public class Gamemaster : MonoBehaviour
                     if (e.element_id == -1) 
                     {
                         newText = "0x" + e.tag.ToString("X") + " : " + e.data;
-                        log.text += "   RAM was written value" + e.data + " on address " + e.tag.ToString("X") + "\n";
+                        log.text += "       RAM was written " + e.data + " on address 0x" + e.tag.ToString("X") + "\n";
                         ram.ChangeLine(newText, e.tag);
                     }
                     else
                     {
                         newText = "0x" + e.tag.ToString("X") + " : " + e.data + " : " + state;
-                        log.text += "   Cache was written value" + e.data + " on tag " + e.tag.ToString("X") + "\n";
+                        log.text += "       Cache " + e.element_id + " has written " + e.data + " on line " + (e.tag % 4).ToString("X") + "\n";
                         log.text += "       Line chaged to state " + state + "\n";
                         caches[e.element_id].ChangeLine(newText, e.tag % 4);
                     }
@@ -208,8 +213,6 @@ public class Gamemaster : MonoBehaviour
                         cacheBus[e.end_id].MoveUp();
 
                     }
-
-                    yield return new WaitForSeconds(wait);
 
                 }
 
