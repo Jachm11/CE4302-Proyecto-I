@@ -533,6 +533,7 @@ void MESI(MT_msg* msg, bool local_PE_has_the_data, Queue* remote_data_owners, Ca
         //todo perfilacion /////////////////////////////////////////////////////////////////////////////////////////////
         sem_wait(&sem_debug_prints);
         printf_yellow_on();
+        add_event_move(-1, msg->cache_id);
         add_event_edit(msg->cache_id, msg->mem_addr, current_editing_line->data,"Exclusive");
         printf("Interconnect/MESI/$:%d T:%d/local transition: Invalid->Exclusive\n", msg->cache_id, msg->mem_addr);
         printf_color_reset();
@@ -650,6 +651,7 @@ void MOESI(MT_msg* msg, bool local_PE_has_the_data, Queue* remote_data_owners, C
         //todo perfilacion /////////////////////////////////////////////////////////////////////////////////////////////
         sem_wait(&sem_debug_prints);
         printf_yellow_on();
+        add_event_move(-1, msg->cache_id);
         add_event_edit(msg->cache_id, msg->mem_addr, current_editing_line->data,"Exclusive");
         printf("Interconnect/MOESI/$:%d T:%d/local transition: Invalid->Exclusive\n", msg->cache_id, msg->mem_addr);
         printf_color_reset();

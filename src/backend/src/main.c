@@ -113,6 +113,8 @@ int main(){
                 close(client_socket);
                 break; // Close the connection if send fails
         }
+
+        close(client_socket);
     }
 
     close(server_socket);
