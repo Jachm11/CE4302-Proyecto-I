@@ -19,6 +19,13 @@ socket.connect(port, host, () => {
 socket.on('data', (data) => {
 
     const json = JSON.parse(data);
+    const trans = json.transactions;
+ 
+
+    for(const t of trans){
+        console.log(t);
+
+    }
     writeFileSync("report.json", JSON.stringify(json));
     socket.destroy();
 });
