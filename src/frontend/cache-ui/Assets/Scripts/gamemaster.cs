@@ -23,6 +23,9 @@ public class Gamemaster : MonoBehaviour
     public Button stepButton;
     public Button resetButton;
     public Button protocolButton;
+    public Button cpu0Button;
+    public Button cpu1Button;
+    public Button cpu2Button;
 
     private Execution execution;
     private int[] regs = new int[3];
@@ -100,6 +103,10 @@ public class Gamemaster : MonoBehaviour
 
         ram = GameObject.FindGameObjectWithTag("RAM").GetComponent<Ram>();
 
+        cpu0Button.interactable = false;
+        cpu1Button.interactable = false;
+        cpu2Button.interactable = false;
+
     }
     void Init()
     {
@@ -109,6 +116,10 @@ public class Gamemaster : MonoBehaviour
         execution = JsonConvert.DeserializeObject<Execution>(jsonData);
 
         log.text += "STARTING EMULATION WITH PROCOTOL " + protocol + "";
+
+        cpu0Button.interactable = true;
+        cpu1Button.interactable = true;
+        cpu2Button.interactable = true;
 
     }
 
@@ -144,7 +155,31 @@ public class Gamemaster : MonoBehaviour
         stepButton.interactable = true;
         protocolButton.interactable = true;
         transactionIndex = 0;
+        done = false;
+        log.text = "";
 
+    }
+
+    public void ShowInstructions(int cpuId)
+    {
+
+        log.text += "\nInstructions on core " + cpuId + "\n\n";
+        foreach (Core core in execution.cores)
+        {
+            if (core.id == cpuId){
+                foreach (Instruction instruction in core.instructions)
+                {
+                    if (instruction.type == "INC")
+                    {
+                        log.text += "INC R0\n";
+                    }
+                    else
+                    {
+                        log.text += instruction.type + " 0x" +instruction.mem_addr.ToString("X") + "\n";
+                    }
+                }
+            }
+        }
     }
 
     IEnumerator ProcessTransactions()
@@ -273,6 +308,19 @@ public class Gamemaster : MonoBehaviour
         else
         {
             // PRINT REPORT
+            log.text +=  "\n" + "__________________________________" + "\n";
+            log.text +=         "PROGRAM FINISHED: PRINTING RESULTS" + "\n";
+            log.text +=         "__________________________________" + "\n" + "\n";
+            log.text +=  "Number of cores: " + execution.report.cores + "\n";
+            log.text +=  "Instructions per core: " + execution.report.instructions_per_core + "\n";
+            log.text +=  "Blocks per cache: " + execution.report.blocks_per_cache + "\n";
+            log.text +=  "RAM size: " + execution.report.blocks_per_ram + "\n";
+            log.text +=  "Increments done: " + execution.report.increments_counter + "\n";
+            log.text +=  "Total read requests: " + execution.report.read_requests_count + "\n";
+            log.text +=  "Total write requests: " + execution.report.write_requests_count + "\n";
+            log.text +=  "Total RAM reads: " + execution.report.ram_reads_counter + "\n";
+            log.text +=  "Total read responses: " + execution.report.read_responses + "\n";
+            log.text +=  "Total cache invalidates: " + execution.report.invalidates_counter + "\n";
 
             done = true;
         }
@@ -303,7 +351,38 @@ public class Transaction
 }
 
 [System.Serializable]
+public class Instruction
+{
+    public int mem_addr;
+    public string type;
+}
+
+[System.Serializable]
+public class Core
+{
+    public int id;
+    public List<Instruction> instructions;
+}
+
+[System.Serializable]
+public class Report
+{
+    public int cores;
+    public int instructions_per_core;
+    public int blocks_per_cache;
+    public int blocks_per_ram;
+    public int increments_counter;
+    public int read_requests_count;
+    public int write_requests_count;
+    public int ram_reads_counter;
+    public int read_responses;
+    public int invalidates_counter;
+}
+
+[System.Serializable]
 public class Execution
 {
+    public List<Core> cores;
+    public Report report;
     public List<Transaction> transactions;
 }
