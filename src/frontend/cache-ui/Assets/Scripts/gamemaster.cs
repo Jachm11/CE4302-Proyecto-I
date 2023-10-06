@@ -2,40 +2,219 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Newtonsoft.Json;
+using TMPro;
+using Unity.VisualScripting;
+using Unity.Collections;
 
-public class gamemaster : MonoBehaviour
+public class Gamemaster : MonoBehaviour
 {
-    public GameObject[] cpus = new GameObject[3];
-    public GameObject[] cpuCache = new GameObject[3];
-    public GameObject[] caches = new GameObject[3];
-    public GameObject[] cacheBus = new GameObject[3];
-    public GameObject bus;
-    public GameObject busRam;
-    public GameObject Ram;
+    public Cpu[] cpus = new Cpu[3];
+    public Arrows[] cpuCache = new Arrows[3];
+    public Cache[] caches = new Cache[3];
+    public Arrows[] cacheBus = new Arrows[3];
+    public Bus bus;
+    public Arrows busRam;
+    public Ram ram;
     public string jsonData;
+    public bool run;
+    public TextMeshProUGUI log;
 
     private Execution execution;
+    private int[] regs = new int[3];
 
-    public void init(){
+    void Start()
+    {
 
+        GameObject[] cpuObjects = GameObject.FindGameObjectsWithTag("CPU");
+
+        for (int i = 0; i < cpuObjects.Length; i++)
+        {   
+            Cpu cpuComponent = cpuObjects[i].GetComponent<Cpu>();
+
+            char lastChar = cpuObjects[i].name[^1];
+
+            int index = int.Parse(lastChar.ToString());
+
+            cpus[index] = cpuComponent;
+
+        }
+
+        GameObject[] cpuCacheObjects = GameObject.FindGameObjectsWithTag("CPU_CACHE");
+
+        for (int i = 0; i < cpuCacheObjects.Length; i++)
+        {
+            Arrows cpuCacheComponent = cpuCacheObjects[i].GetComponent<Arrows>();
+
+            char lastChar = cpuCacheObjects[i].name[^1];
+
+            int index = int.Parse(lastChar.ToString());
+
+            cpuCache[index] = cpuCacheComponent;
+        }
+
+        // Assign Cache components based on the last character of GameObject names
+        GameObject[] cacheObjects = GameObject.FindGameObjectsWithTag("CACHE");
+
+        for (int i = 0; i < cacheObjects.Length; i++)
+        {
+            Cache cacheComponent = cacheObjects[i].GetComponent<Cache>();
+
+            char lastChar = cacheObjects[i].name[^1];
+
+            int index = int.Parse(lastChar.ToString());
+
+            caches[index] = cacheComponent;
+        }
+
+        // Assign Cache Bus components based on the last character of GameObject names
+        GameObject[] cacheBusObjects = GameObject.FindGameObjectsWithTag("CACHE_BUS");
+
+        for (int i = 0; i < cacheBusObjects.Length; i++)
+        {
+            Arrows cacheBusComponent = cacheBusObjects[i].GetComponent<Arrows>();
+
+            char lastChar = cacheBusObjects[i].name[^1];
+
+            int index = int.Parse(lastChar.ToString());
+            
+            cacheBus[index] = cacheBusComponent;
+        }
+
+        for (int i = 0; i < 3; i++)
+        {
+            regs[i] = 0;
+        }
+
+        bus = GameObject.FindGameObjectWithTag("BUS").GetComponent<Bus>();
+
+        busRam = GameObject.FindGameObjectWithTag("BUS_RAM").GetComponent<Arrows>();
+
+        ram = GameObject.FindGameObjectWithTag("RAM").GetComponent<Ram>();
+
+    }
+    public void Init()
+    {
         execution = JsonConvert.DeserializeObject<Execution>(jsonData);
 
-        foreach (Transition transition in execution.transitions)
-        {
-            Debug.Log("Count: " + transition.count);
-            Debug.Log("Core: " + transition.core);
-            Debug.Log("Mem Address: " + transition.mem_address);
-            Debug.Log("Type: " + transition.type);
+        StartCoroutine(ProcessTransactions());
+    }
 
-            foreach (Event e in transition.events)
+    IEnumerator ProcessTransactions()
+    {
+
+        float wait = 1.0f;
+        execution = JsonConvert.DeserializeObject<Execution>(jsonData);
+
+        foreach (Transaction transaction in execution.transactions)
+        {
+
+            // Log new instruction
+            log.text += "Core " + transaction.core + " " + transaction.type + "\n";
+
+            if (transaction.type == "INC")
             {
-                Debug.Log("Event Type: " + e.event_type);
-                Debug.Log("Start ID: " + e.start_id);
-                Debug.Log("End ID: " + e.end_id);
-                Debug.Log("Element ID: " + e.element_id); // Print element_id
-                Debug.Log("Tag: " + e.tag); // Print tag
-                Debug.Log("Data: " + e.data); // Print data
-                Debug.Log("Target State: " + e.target_state); // Print target_state
+                cpus[transaction.core].ChangeInstruction("INC R0");
+                regs[transaction.core]++;
+                yield return new WaitForSeconds(wait);
+                cpus[transaction.core].ChangeRegister("R0 : " + regs[transaction.core]);
+
+            }
+
+            else
+            {
+                string newInst = transaction.type + " 0x" + transaction.mem_address.ToString("X");    
+                cpus[transaction.core].ChangeInstruction(newInst);
+                yield return new WaitForSeconds(wait);
+                cpuCache[transaction.core].MoveDown();
+            }
+
+            yield return new WaitForSeconds(wait);
+
+            foreach (Event e in transaction.events)
+            {
+
+                if (e.event_type == "edit")
+                {
+
+                    string newText = "";
+                    string state = "";
+
+                    switch (e.target_state)
+                    {
+                        case "Modified":
+                            state = "M";
+                            break;
+
+                        case "Owned":
+                            state = "O";
+                            break;
+
+                        case "Exclusive":
+                            state = "E";
+                            break;
+
+                        case "Shared":
+                            state = "S";
+                            break;
+
+                        case "Invalid":
+                            state = "I";
+                            break;
+
+                        default:
+                            break;
+                    }
+
+                    if (e.element_id == -1) 
+                    {
+                        newText = "0x" + e.tag.ToString("X") + " : " + e.data;
+                        log.text += "   RAM was written value" + e.data + " on address " + e.tag.ToString("X") + "\n";
+                        ram.ChangeLine(newText, e.tag);
+                    }
+                    else
+                    {
+                        newText = "0x" + e.tag.ToString("X") + " : " + e.data + " : " + state;
+                        log.text += "   Cache was written value" + e.data + " on tag " + e.tag.ToString("X") + "\n";
+                        log.text += "       Line chaged to state " + state + "\n";
+                        caches[e.element_id].ChangeLine(newText, e.tag % 4);
+                    }
+
+                }
+
+                else if (e.event_type == "move")
+                {
+                    
+                    if (e.start_id == -1){
+                        busRam.MoveUp();
+                        
+                    }
+                    else
+                    {
+                        cacheBus[e.start_id].MoveDown();
+                    }
+
+                    yield return new WaitForSeconds(wait);
+
+                    bus.Move(e.start_id,e.end_id);
+
+                    yield return new WaitForSeconds(wait);
+
+                    if (e.end_id == -1)
+                    {
+                        busRam.MoveDown();
+                    }
+                    else
+                    {
+                        cacheBus[e.end_id].MoveUp();
+
+                    }
+
+                    yield return new WaitForSeconds(wait);
+
+                }
+
+                 // Wait for 1 second before the next iteration
+                yield return new WaitForSeconds(wait);
             }
         }
     }
@@ -55,7 +234,7 @@ public class Event
 }
 
 [System.Serializable]
-public class Transition
+public class Transaction
 {
     public int count;
     public int core;
@@ -67,5 +246,5 @@ public class Transition
 [System.Serializable]
 public class Execution
 {
-    public List<Transition> transitions;
+    public List<Transaction> transactions;
 }

@@ -7,7 +7,6 @@ public class Cache : MonoBehaviour
 {
     public UnityEngine.Rendering.Universal.Light2D light2D;
     public TextMeshProUGUI[] textMeshProObjects = new TextMeshProUGUI[4];
-    public int cacheLine;
     private float originalIntensity;
 
     void Start()
@@ -29,9 +28,8 @@ public class Cache : MonoBehaviour
     }
 
     // Public function to change the text of a TextMeshPro object based on ID
-    public void ChangeLine(string newText)
+    public void ChangeLine(string newText, int id)
     {
-        int id = cacheLine;
 
         // Check if the provided ID is within a valid range
         if (id >= 0 && id < textMeshProObjects.Length)

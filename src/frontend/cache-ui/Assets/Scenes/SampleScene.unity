@@ -221,7 +221,7 @@ GameObject:
   - component: {fileID: 25362136}
   m_Layer: 0
   m_Name: Bus
-  m_TagString: Untagged
+  m_TagString: BUS
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -256,8 +256,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   light2D: {fileID: 2052074181}
-  idOrg: 0
-  idDest: 1
 --- !u!1 &35968575
 GameObject:
   m_ObjectHideFlags: 0
@@ -563,8 +561,8 @@ MonoBehaviour:
   m_ShadowVolumeIntensityEnabled: 0
   m_ShadowVolumeIntensity: 0.75
   m_LocalBounds:
-    m_Center: {x: 0.17405128, y: 0.047899246, z: 0}
-    m_Extent: {x: 51.16575, y: 50.279602, z: 0}
+    m_Center: {x: 0.18540001, y: 0.047100067, z: 0}
+    m_Extent: {x: 51.1735, y: 50.2882, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 89.69593
@@ -2235,8 +2233,8 @@ MonoBehaviour:
   m_ShadowVolumeIntensityEnabled: 0
   m_ShadowVolumeIntensity: 0.75
   m_LocalBounds:
-    m_Center: {x: -2.490098, y: 27.516354, z: 0}
-    m_Extent: {x: 20.609646, y: 20.499348, z: 0}
+    m_Center: {x: -2.49405, y: 27.511642, z: 0}
+    m_Extent: {x: 20.61465, y: 20.49464, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 89.69593
@@ -2265,7 +2263,7 @@ GameObject:
   - component: {fileID: 414393540}
   m_Layer: 5
   m_Name: Cache 2
-  m_TagString: Untagged
+  m_TagString: CACHE
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2393,8 +2391,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 533113398}
   m_HandleRect: {fileID: 533113397}
   m_Direction: 2
-  m_Value: 1
-  m_Size: 0.36911276
+  m_Value: 0
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -2572,10 +2570,10 @@ MonoBehaviour:
   - {fileID: 1607615283}
   - {fileID: 1929999272}
   - {fileID: 780240389}
-  bus: {fileID: 25362134}
-  busRam: {fileID: 1911562961}
-  Ram: {fileID: 1962461693}
-  jsonData: '{     "transitions":      [         {             "count": 0,            
+  bus: {fileID: 25362136}
+  busRam: {fileID: 1911562963}
+  ram: {fileID: 0}
+  jsonData: '{     "transactions":      [         {             "count": 0,            
     "core": 0,             "mem_address": 7,             "type": "WRITE",            
     "events":              [                 {                     "event_type":
     "edit",                     "element_id": 0,                     "tag": 7,                    
@@ -2620,6 +2618,8 @@ MonoBehaviour:
     "edit",                     "element_id": 0,                     "tag": 9,                    
     "data": 11,                     "target_state": "Modified"                 }            
     ]         }     ] }'
+  run: 1
+  log: {fileID: 548912189}
 --- !u!1 &516511985
 GameObject:
   m_ObjectHideFlags: 0
@@ -3016,10 +3016,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Cache 0 READ REQUEST \n\nCPU 0 WRITE  R0 = 13\n\nCache 1 READ REQUEST
-    \n\nCPU 2 WRITE  R0 = 16\n\nCache 0 BROADCAST INVALIDATE \n\nCPU WRITE  R0 =
-    13\n\nCache 0 READ REQUEST \n\nCPU WRITE  R0 = 13\n\nCache 0 READ REQUEST \n\nCPU
-    WRITE  R0 = 13\n "
+  m_text: "\n "
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -3336,8 +3333,8 @@ MonoBehaviour:
   m_ShadowVolumeIntensityEnabled: 0
   m_ShadowVolumeIntensity: 0.75
   m_LocalBounds:
-    m_Center: {x: 2.8004456, y: -6.0928497, z: 0}
-    m_Extent: {x: 202.79645, y: 103.20405, z: 0}
+    m_Center: {x: 2.8051453, y: -6.0898514, z: 0}
+    m_Extent: {x: 202.79465, y: 103.20835, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 89.69593
@@ -3600,7 +3597,7 @@ GameObject:
   - component: {fileID: 709092833}
   m_Layer: 5
   m_Name: CPU 1
-  m_TagString: Untagged
+  m_TagString: CPU
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3714,8 +3711,8 @@ MonoBehaviour:
   m_ShadowVolumeIntensityEnabled: 0
   m_ShadowVolumeIntensity: 0.75
   m_LocalBounds:
-    m_Center: {x: 0.042598724, y: -0.058950424, z: 0}
-    m_Extent: {x: 50.9515, y: 50.42195, z: 0}
+    m_Center: {x: 0.04609871, y: -0.062999725, z: 0}
+    m_Extent: {x: 50.9582, y: 50.4266, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 89.69593
@@ -3804,8 +3801,8 @@ MonoBehaviour:
   m_ShadowVolumeIntensityEnabled: 0
   m_ShadowVolumeIntensity: 0.75
   m_LocalBounds:
-    m_Center: {x: -8.719254, y: -0.45204926, z: 0}
-    m_Extent: {x: 213.72995, y: 113.67655, z: 0}
+    m_Center: {x: -8.718651, y: -0.45055008, z: 0}
+    m_Extent: {x: 213.73575, y: 113.678345, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 89.69593
@@ -3836,7 +3833,7 @@ GameObject:
   - component: {fileID: 780240391}
   m_Layer: 5
   m_Name: Bus-cache 2
-  m_TagString: Untagged
+  m_TagString: CACHE_BUS
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3887,7 +3884,7 @@ GameObject:
   - component: {fileID: 803384763}
   m_Layer: 5
   m_Name: CPU-cache 0
-  m_TagString: Untagged
+  m_TagString: CPU_CACHE
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4303,8 +4300,8 @@ MonoBehaviour:
   m_ShadowVolumeIntensityEnabled: 0
   m_ShadowVolumeIntensity: 0.75
   m_LocalBounds:
-    m_Center: {x: -2.493, y: 27.512852, z: 0}
-    m_Extent: {x: 20.614, y: 20.49585, z: 0}
+    m_Center: {x: -2.490098, y: 27.5104, z: 0}
+    m_Extent: {x: 20.609646, y: 20.497301, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 89.69593
@@ -4525,8 +4522,8 @@ MonoBehaviour:
   m_ShadowVolumeIntensityEnabled: 0
   m_ShadowVolumeIntensity: 0.75
   m_LocalBounds:
-    m_Center: {x: -2.4929266, y: 27.513351, z: 0}
-    m_Extent: {x: 20.612473, y: 20.50195, z: 0}
+    m_Center: {x: -2.4894495, y: 27.51435, z: 0}
+    m_Extent: {x: 20.611149, y: 20.497349, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 89.69593
@@ -4899,7 +4896,7 @@ GameObject:
   - component: {fileID: 945608078}
   m_Layer: 5
   m_Name: Cache 0
-  m_TagString: Untagged
+  m_TagString: CACHE
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5090,8 +5087,8 @@ MonoBehaviour:
   m_ShadowVolumeIntensityEnabled: 0
   m_ShadowVolumeIntensity: 0.75
   m_LocalBounds:
-    m_Center: {x: -2.4892006, y: 27.509851, z: 0}
-    m_Extent: {x: 20.618, y: 20.49975, z: 0}
+    m_Center: {x: -2.4891005, y: 27.511341, z: 0}
+    m_Extent: {x: 20.615501, y: 20.494942, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 89.69593
@@ -5351,7 +5348,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.000012398, y: 0}
+  m_AnchoredPosition: {x: 0.000015258789, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1061266004
@@ -5865,7 +5862,7 @@ GameObject:
   - component: {fileID: 1251374349}
   m_Layer: 5
   m_Name: CPU 2
-  m_TagString: Untagged
+  m_TagString: CPU
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6113,8 +6110,8 @@ MonoBehaviour:
   m_ShadowVolumeIntensityEnabled: 0
   m_ShadowVolumeIntensity: 0.75
   m_LocalBounds:
-    m_Center: {x: -1.3162994, y: 0.4110489, z: 0}
-    m_Extent: {x: 203.5543, y: 101.99935, z: 0}
+    m_Center: {x: -1.3127975, y: 0.41630173, z: 0}
+    m_Extent: {x: 203.54819, y: 101.993, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 89.69593
@@ -6847,8 +6844,8 @@ MonoBehaviour:
   m_ShadowVolumeIntensityEnabled: 0
   m_ShadowVolumeIntensity: 0.75
   m_LocalBounds:
-    m_Center: {x: -2.4905996, y: 27.508741, z: 0}
-    m_Extent: {x: 20.614101, y: 20.497541, z: 0}
+    m_Center: {x: -2.4890995, y: 27.51485, z: 0}
+    m_Extent: {x: 20.6124, y: 20.497849, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 89.69593
@@ -7412,8 +7409,8 @@ MonoBehaviour:
   m_ShadowVolumeIntensityEnabled: 0
   m_ShadowVolumeIntensity: 0.75
   m_LocalBounds:
-    m_Center: {x: -2.4913006, y: 27.5126, z: 0}
-    m_Extent: {x: 20.6115, y: 20.498901, z: 0}
+    m_Center: {x: -2.494627, y: 27.511042, z: 0}
+    m_Extent: {x: 20.614174, y: 20.495241, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 89.69593
@@ -7576,7 +7573,7 @@ GameObject:
   - component: {fileID: 1501624146}
   m_Layer: 5
   m_Name: CPU 0
-  m_TagString: Untagged
+  m_TagString: CPU
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7690,8 +7687,8 @@ MonoBehaviour:
   m_ShadowVolumeIntensityEnabled: 0
   m_ShadowVolumeIntensity: 0.75
   m_LocalBounds:
-    m_Center: {x: 0.047100067, y: -0.24429893, z: 0}
-    m_Extent: {x: 51.1518, y: 50.7399, z: 0}
+    m_Center: {x: 0.049949646, y: -0.24214935, z: 0}
+    m_Extent: {x: 51.15705, y: 50.74335, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 89.69593
@@ -8015,7 +8012,7 @@ GameObject:
   - component: {fileID: 1607615285}
   m_Layer: 5
   m_Name: Bus-cache 0
-  m_TagString: Untagged
+  m_TagString: CACHE_BUS
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8211,8 +8208,8 @@ MonoBehaviour:
   m_ShadowVolumeIntensityEnabled: 0
   m_ShadowVolumeIntensity: 0.75
   m_LocalBounds:
-    m_Center: {x: 3.8581543, y: -30.621605, z: 0}
-    m_Extent: {x: 518.53345, y: 112.9056, z: 0}
+    m_Center: {x: 3.8570251, y: -30.613499, z: 0}
+    m_Extent: {x: 518.5316, y: 112.9077, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 89.69593
@@ -8687,8 +8684,8 @@ MonoBehaviour:
   m_ShadowVolumeIntensityEnabled: 0
   m_ShadowVolumeIntensity: 0.75
   m_LocalBounds:
-    m_Center: {x: -2.49045, y: 27.513302, z: 0}
-    m_Extent: {x: 20.61105, y: 20.4963, z: 0}
+    m_Center: {x: -2.486371, y: 27.511642, z: 0}
+    m_Extent: {x: 20.613373, y: 20.49464, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 89.69593
@@ -8851,7 +8848,7 @@ GameObject:
   - component: {fileID: 1765679229}
   m_Layer: 5
   m_Name: CPU-cache 1
-  m_TagString: Untagged
+  m_TagString: CPU_CACHE
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9305,8 +9302,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 466148160}
-        m_TargetAssemblyTypeName: gamemaster, Assembly-CSharp
-        m_MethodName: init
+        m_TargetAssemblyTypeName: Gamemaster, Assembly-CSharp
+        m_MethodName: Init
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -9415,7 +9412,7 @@ GameObject:
   - component: {fileID: 1890884800}
   m_Layer: 5
   m_Name: Cache 1
-  m_TagString: Untagged
+  m_TagString: CACHE
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9473,7 +9470,7 @@ GameObject:
   - component: {fileID: 1911562963}
   m_Layer: 5
   m_Name: Bus-RAM
-  m_TagString: Untagged
+  m_TagString: BUS_RAM
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9561,7 +9558,7 @@ GameObject:
   - component: {fileID: 1929999274}
   m_Layer: 5
   m_Name: Bus-cache 1
-  m_TagString: Untagged
+  m_TagString: CACHE_BUS
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9880,7 +9877,7 @@ GameObject:
   - component: {fileID: 1962461695}
   m_Layer: 5
   m_Name: RAM
-  m_TagString: Untagged
+  m_TagString: RAM
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -10388,7 +10385,7 @@ GameObject:
   - component: {fileID: 2035353165}
   m_Layer: 5
   m_Name: CPU-cache 2
-  m_TagString: Untagged
+  m_TagString: CPU_CACHE
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -10498,8 +10495,8 @@ MonoBehaviour:
   m_ShadowVolumeIntensityEnabled: 0
   m_ShadowVolumeIntensity: 0.75
   m_LocalBounds:
-    m_Center: {x: -0.46982574, y: 0.8160038, z: 0}
-    m_Extent: {x: 70.08347, y: 59.313194, z: 0}
+    m_Center: {x: -0.46654892, y: 0.8128605, z: 0}
+    m_Extent: {x: 70.08646, y: 59.31005, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 89.69593

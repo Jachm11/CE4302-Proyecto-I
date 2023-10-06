@@ -1,0 +1,162 @@
+{
+    "transactions": 
+    [
+        {
+            "count": 0,
+            "core": 0,
+            "mem_address": 7,
+            "type": "WRITE",
+            "events": 
+            [
+                {
+                    "event_type": "edit",
+                    "element_id": 0,
+                    "tag": 7,
+                    "data": 101,
+                    "target_state": "Modified"
+                }
+            ]
+        },
+
+        {
+            "count": 1,
+            "core": 1,
+            "mem_address": -1,
+            "type": "INC",
+            "events": []
+        },
+
+        {
+            "count": 2,
+            "core": 2,
+            "mem_address": 5,
+            "type": "READ",
+            "events": 
+            [
+                {
+                    "event_type": "edit",
+                    "element_id": 2,
+                    "tag": 5,
+                    "data": 600,
+                    "target_state": "Exclusive"
+                }
+            ]
+        },
+
+        {
+            "count": 3,
+            "core": 0,
+            "mem_address": -1,
+            "type": "INC",
+            "events": []
+        },
+
+        {
+            "count": 4,
+            "core": 0,
+            "mem_address": 9,
+            "type": "WRITE",
+            "events": 
+            [
+                {
+                    "event_type": "edit",
+                    "element_id": 0,
+                    "tag": 9,
+                    "data": 102,
+                    "target_state": "Modified"
+                }
+            ]
+        },
+
+        {
+            "count": 5,
+            "core": 2,
+            "mem_address": 7,
+            "type": "READ",
+            "events": 
+            [
+                {
+                    "event_type": "edit",
+                    "element_id": 0,
+                    "tag": 7,
+                    "data": 101,
+                    "target_state": "Shared"
+                },
+                {
+                    "event_type": "move",
+                    "start_id": "0",
+                    "end_id": "2"
+                },
+                {
+                    "event_type": "edit",
+                    "element_id": 2,
+                    "tag": 7,
+                    "data": 101,
+                    "target_state": "Shared"
+                }
+            ]
+        },
+
+        {
+            "count": 6,
+            "core": 2,
+            "mem_address": -1,
+            "type": "INC",
+            "events": []
+        },
+
+        {
+            "count": 7,
+            "core": 2,
+            "mem_address": 8,
+            "type": "WRITE",
+            "events": 
+            [
+                {
+                    "event_type": "edit",
+                    "element_id": 2,
+                    "tag": 8,
+                    "data": 304,
+                    "target_state": "Modified"
+                }
+            ]
+        },
+
+        {
+            "count": 8,
+            "core": 2,
+            "mem_address": -1,
+            "type": "INC",
+            "events": []
+        },
+
+        {
+            "count": 9,
+            "core": 0,
+            "mem_address": 1,
+            "type": "WRITE",
+            "events": 
+            [
+                {
+                    "event_type": "move",
+                    "start_id": 0,
+                    "end_id": -1
+                },
+                {
+                    "event_type": "edit",
+                    "element_id": -1,
+                    "tag": 9,
+                    "data": 102,
+                    "target_state": ""
+                },
+                {
+                    "event_type": "edit",
+                    "element_id": 0,
+                    "tag": 9,
+                    "data": 11,
+                    "target_state": "Modified"
+                }
+            ]
+        }
+    ]
+}

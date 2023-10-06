@@ -2,13 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class bus : MonoBehaviour
+public class Bus : MonoBehaviour
 {
 
     public UnityEngine.Rendering.Universal.Light2D light2D;
-
-    public int idOrg;
-    public int idDest;
 
     private Vector2 originalPosition;
 
@@ -33,7 +30,7 @@ public class bus : MonoBehaviour
     }
 
 
-    public void Move()
+    public void Move(int idOrg, int idDest)
     {
 
         int direction = 1;
@@ -41,6 +38,24 @@ public class bus : MonoBehaviour
         // Reset the object to the orginal position
         switch (idOrg)
         {
+            
+            case -1:
+
+                light2D.transform.localPosition = originalPosition;
+                light2D.color = Color.white;
+                if (idDest == 0)
+                {
+                    direction = 1;
+                }
+                if (idDest == 2)
+                {
+                    direction = -1;
+                }
+                else
+                {
+                    direction = 0;
+                }
+                break;
             
             case 0:
 
@@ -81,12 +96,16 @@ public class bus : MonoBehaviour
             direction = 0;
             light2D.color = Color.red;
         }
-        else if (idDest != 1)
+        else if (idDest != 1 || idDest != -1)
         {
             multiplier = 2;
         }
+        else
+        {
+            multiplier = 1;
+        }
 
-        Vector2 targetPosition = (light2D.transform.localPosition) - (new Vector3(direction * 700f * multiplier, 0f, 0f));
+        Vector2 targetPosition = light2D.transform.localPosition - new Vector3(direction * 700f * multiplier, 0f, 0f);
 
         // Reset the intensity to 0
         light2D.intensity = 20f;
