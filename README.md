@@ -48,29 +48,29 @@ Para compilar y ejecutar rápidamente todos los programas del backend, sigue est
 ## Frontend
 
 Estos son los pasos generales para compilar un proyecto de Unity y crear un ejecutable para tu plataforma de destino.
-### 1. Abre el Proyecto
+1. Abre el Proyecto
 
 Abre tu proyecto de Unity en el editor.
 
-### 2. Configura la Plataforma
+2. Configura la Plataforma
 
 Dirígete a "File" (Archivo) > "Build Settings" (Configuración de Compilación) en el menú principal.
 
-- Selecciona Linux como plataforma de destino en la que deseas compilar tu proyecto.
+- Selecciona Linux como la plataforma de destino en la que deseas compilar tu proyecto.
 
-### 3. Ajusta las Configuraciones de Compilación
+3. Ajusta las Configuraciones de Compilación
 
 Configura las opciones de compilación según tus necesidades:
 
 - Ajusta la resolución de pantalla y otras configuraciones específicas de la plataforma.
 
-### 4. Compila el Proyecto
+4. Compila el Proyecto
 
 Haz clic en el botón "Build" (Compilar) en la ventana de "Build Settings".
 
 - Elige o crea una carpeta donde se guardarán los archivos de compilación. Asegúrate de mantener esta carpeta organizada.
 
-### 5. Ejecuta el Ejecutable
+5. Ejecuta el Ejecutable
 
 Una vez completada la compilación, ve a la carpeta de salida que especificaste en el paso anterior.
 
@@ -83,7 +83,7 @@ Una vez completada la compilación, ve a la carpeta de salida que especificaste 
 o bien, puedes dirijirse al directorio `bin` y ejecute el siguiente comando
 
    ```bash
-   ./frontend
+   ./cache_simulator.x86_64
    ```
 
 #
