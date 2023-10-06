@@ -100,6 +100,9 @@ public class Bus : MonoBehaviour
         {
             multiplier = 2;
         }
+        else if (idOrg == 1 && idDest == -1){
+            direction = 0;
+        }
         else
         {
             multiplier = 1;

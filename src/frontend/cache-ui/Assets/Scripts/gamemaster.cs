@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using Newtonsoft.Json;
 using TMPro;
+using System.Net.Sockets;
 using Unity.VisualScripting;
 using Unity.Collections;
 using UnityEngine.UI;
+using System;
+using System.Text;
 
 public class Gamemaster : MonoBehaviour
 {
@@ -16,7 +19,6 @@ public class Gamemaster : MonoBehaviour
     public Bus bus;
     public Arrows busRam;
     public Ram ram;
-    public string jsonData;
     public bool run;
     public TextMeshProUGUI log;
     public Button runButton;
@@ -26,6 +28,7 @@ public class Gamemaster : MonoBehaviour
     public Button cpu0Button;
     public Button cpu1Button;
     public Button cpu2Button;
+    public TextMeshProUGUI connectButtonText;
 
     private Execution execution;
     private int[] regs = new int[3];
@@ -33,6 +36,13 @@ public class Gamemaster : MonoBehaviour
     private int transactionIndex = 0;
     private bool done = false;
     private float wait = 1.0f;
+
+    private TcpClient client;
+    private NetworkStream stream;
+    private const string serverIP = "127.0.0.1";
+    private const int serverPort = 4000;
+    private string jsonData;
+
 
     void Start()
     {
@@ -64,7 +74,6 @@ public class Gamemaster : MonoBehaviour
             cpuCache[index] = cpuCacheComponent;
         }
 
-        // Assign Cache components based on the last character of GameObject names
         GameObject[] cacheObjects = GameObject.FindGameObjectsWithTag("CACHE");
 
         for (int i = 0; i < cacheObjects.Length; i++)
@@ -78,7 +87,6 @@ public class Gamemaster : MonoBehaviour
             caches[index] = cacheComponent;
         }
 
-        // Assign Cache Bus components based on the last character of GameObject names
         GameObject[] cacheBusObjects = GameObject.FindGameObjectsWithTag("CACHE_BUS");
 
         for (int i = 0; i < cacheBusObjects.Length; i++)
@@ -106,21 +114,44 @@ public class Gamemaster : MonoBehaviour
         cpu0Button.interactable = false;
         cpu1Button.interactable = false;
         cpu2Button.interactable = false;
+        runButton.interactable = false;
+        stepButton.interactable = false;
+        resetButton.interactable = false;
 
     }
-    void Init()
+
+    public void connect()
     {
+        try
+        {
+            protocol = "MESI";
 
-        protocol = "MESI";
+            ConnectToServer();
 
-        execution = JsonConvert.DeserializeObject<Execution>(jsonData);
+            SendJsonData(protocol);
 
-        log.text += "STARTING EMULATION WITH PROCOTOL " + protocol + "";
+            execution = JsonConvert.DeserializeObject<Execution>(jsonData);
 
-        cpu0Button.interactable = true;
-        cpu1Button.interactable = true;
-        cpu2Button.interactable = true;
+            log.text += "STARTING EMULATION WITH PROCOTOL " + protocol + "";
 
+            cpu0Button.interactable = true;
+            cpu1Button.interactable = true;
+            cpu2Button.interactable = true;
+            runButton.interactable = true;
+            stepButton.interactable = true;
+            resetButton.interactable = true;
+
+        
+            connectButtonText.text = "Request new code";
+
+
+        }
+        catch (System.Exception)
+        {
+            
+            throw;
+        }
+        
     }
 
     public void Step()
@@ -128,10 +159,6 @@ public class Gamemaster : MonoBehaviour
 
         runButton.interactable = false;
         protocolButton.interactable = false;
-        if (transactionIndex == 0)
-        {
-            Init();
-        }
         StartCoroutine(ProcessTransaction());
         transactionIndex++;
 
@@ -144,19 +171,20 @@ public class Gamemaster : MonoBehaviour
         runButton.interactable = false;
         protocolButton.interactable = false;
         wait = 2.0f;
-        Init();
         StartCoroutine(ProcessTransactions());
 
     }
 
     public void Reset()
     {
+        StopAllCoroutines();
         runButton.interactable = true;
         stepButton.interactable = true;
         protocolButton.interactable = true;
         transactionIndex = 0;
         done = false;
         log.text = "";
+
 
     }
 
@@ -179,6 +207,68 @@ public class Gamemaster : MonoBehaviour
                     }
                 }
             }
+        }
+    }
+
+    private void ConnectToServer()
+    {
+        try
+        {
+            client = new TcpClient(serverIP, serverPort);
+            stream = client.GetStream();
+            Debug.Log("Connected to server");
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("Error connecting to server: " + e.Message);
+        }
+    }
+
+    public void SendJsonData(string message)
+    {
+        if (stream == null)
+        {
+            Debug.LogError("Not connected to the server.");
+            return;
+        }
+
+        try
+        {
+            Request data = new Request
+            {
+                command = "start",
+                protocol = message
+            };
+
+            string json = JsonConvert.SerializeObject(data);
+            byte[] jsonRequest = Encoding.UTF8.GetBytes(json);
+
+            stream.Write(jsonRequest, 0, jsonRequest.Length);
+            Debug.Log("Sent JSON data to server: " + json);
+
+            // Wait for a response from the server
+            byte[] buffer = new byte[20000];
+            int bytesRead = stream.Read(buffer, 0, buffer.Length);
+            string response = Encoding.UTF8.GetString(buffer, 0, bytesRead);
+
+            Debug.Log("Received response from server: " + response);
+
+            jsonData = response;
+
+            Disconnect();
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("Error sending JSON data: " + e.Message);
+        }
+    }
+
+    private void Disconnect()
+    {
+        if (client != null)
+        {
+            client.Close();
+            Debug.Log("Socket closed.");
         }
     }
 
@@ -263,9 +353,16 @@ public class Gamemaster : MonoBehaviour
                     }
                     else
                     {
-                        newText = "0x" + e.tag.ToString("X") + " : " + e.data + " : " + state;
-                        log.text += "       Cache " + e.element_id + " has written " + e.data + " on line " + (e.tag % 4).ToString("X") + "\n";
+                        newText = "0x" + (e.tag % 4).ToString("X") + " : " + e.data + " : " + state;
+                        log.text += "       Cache " + e.element_id + " was written " + e.data + " on line " + (e.tag % 4).ToString("X") + "\n";
                         log.text += "       Line chaged to state " + state + "\n";
+
+                        // if (state == "I"){
+                        //     bus.Move(e.element_id,e.element_id);
+                        //     yield return new WaitForSeconds(wait);
+                        //     cacheBus[e.element_id].MoveUp();
+                        //     yield return new WaitForSeconds(wait);
+                        // }
                         caches[e.element_id].ChangeLine(newText, e.tag % 4);
                     }
 
@@ -278,7 +375,7 @@ public class Gamemaster : MonoBehaviour
                         busRam.MoveUp();
                         
                     }
-                    else
+                    else if(e.start_id != e.end_id)
                     {
                         cacheBus[e.start_id].MoveDown();
                     }
@@ -296,7 +393,6 @@ public class Gamemaster : MonoBehaviour
                     else
                     {
                         cacheBus[e.end_id].MoveUp();
-
                     }
 
                 }
@@ -385,4 +481,11 @@ public class Execution
     public List<Core> cores;
     public Report report;
     public List<Transaction> transactions;
+}
+
+[System.Serializable]
+public class Request
+{
+    public string command;
+    public string protocol;
 }
