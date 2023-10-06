@@ -3,7 +3,14 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - CPU
+  - CPU_CACHE
+  - CACHE
+  - CACHE_BUS
+  - BUS
+  - BUS_RAM
+  - RAM
   layers:
   - Default
   - TransparentFX
