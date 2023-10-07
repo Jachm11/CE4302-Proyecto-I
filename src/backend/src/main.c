@@ -52,7 +52,9 @@ char* process_command(char* buffer){
 
             // Start execution
             printf("command %s \n", command);
+
             char* result = start_execution();
+
             FILE* file = fopen("/tmp/cache_exec_arqui.txt", "w");
             fwrite(result, 1, strlen(result), file);
             fclose(file);
@@ -93,24 +95,14 @@ int main(){
             // You can send a response back to the client using send() here
             break;
         }
-        // size_t response_size = 64 * 1024; // 50KB in bytes
-        // // Allocate memory for the response buffer
-        // char* response = (char*)malloc(response_size);
-        // if (response == NULL) {
-        //     perror("Memory allocation failed");
-        // } else {
-        //    char* response = process_command(buffer);
-        // }
         char *response = process_command(buffer);
-
-        char* response = process_command(buffer);
 
         if (send(client_socket, response, strlen(response), 0) < 0) {
                 perror("Send failed");
                 close(client_socket);
                 break; // Close the connection if send fails
         }
-        //close(client_socket);
+        close(client_socket);
     }
 
     close(server_socket);

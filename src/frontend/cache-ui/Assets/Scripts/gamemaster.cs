@@ -30,6 +30,7 @@ public class Gamemaster : MonoBehaviour
     public Button cpu2Button;
     public TextMeshProUGUI connectButtonText;
 
+    private Root root;
     private Execution execution;
     private int[] regs = new int[3];
     private string protocol;
@@ -118,7 +119,19 @@ public class Gamemaster : MonoBehaviour
 
             SendJsonData(protocol);
 
-            execution = JsonConvert.DeserializeObject<Execution>(jsonData);
+            readFile();
+
+            root = JsonConvert.DeserializeObject<Root>(jsonData);
+
+            if (protocol == "MESI")
+            {
+                execution = root.mesi;
+            }
+            else
+            {
+                execution = root.moesi;
+            }
+            
 
             log.text += "STARTING EMULATION WITH PROCOTOL " + protocol + "";
 
@@ -202,12 +215,14 @@ public class Gamemaster : MonoBehaviour
         {
             protocol = "MOESI";
             protocolButtonText.text = "MOESI"; 
+            execution = root.moesi;
 
         }
         else
         {
             protocol = "MESI";
             protocolButtonText.text = "MESI"; 
+            execution = root.mesi;
         }
 
     }
@@ -272,16 +287,12 @@ public class Gamemaster : MonoBehaviour
             Debug.Log("Sent JSON data to server: " + json);
 
             // Wait for a response from the server
-            byte[] buffer = new byte[4096];
+            byte[] buffer = new byte[1024];
             int bytesRead = stream.Read(buffer, 0, buffer.Length);
             string response = Encoding.UTF8.GetString(buffer, 0, bytesRead);
             Debug.Log("Received response from server: " + response);
 
-            jsonData = response;
-
             Disconnect();
-
-            readFile();
         }
         catch (Exception e)
         {
@@ -308,10 +319,7 @@ public class Gamemaster : MonoBehaviour
         {
             // Read the contents of the text file into a string variable
             string jsonData = File.ReadAllText(filePath);
-
-            // Display the contents of the file
-            Console.WriteLine("File Contents:");
-            Console.WriteLine(jsonData);
+            Debug.Log(jsonData);
         }
         catch (FileNotFoundException)
         {
@@ -533,6 +541,13 @@ public class Execution
     public List<Core> cores;
     public Report report;
     public List<Transaction> transactions;
+}
+
+[System.Serializable]
+public class Root
+{
+    public Execution mesi;
+    public Execution moesi;
 }
 
 [System.Serializable]
