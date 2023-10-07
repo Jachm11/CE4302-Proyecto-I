@@ -518,7 +518,7 @@ void print_log()
     printf("Invalidates counter: %d\n", invalidates_counter);
     printf("\n");
     printf("MT History:\n");
-    Queue_msg_println(MT_history);
+//    Queue_msg_println(MT_history);
 }
 
 /// Protocols
@@ -793,17 +793,13 @@ void PE_MT(int id, bool request_type, int mem_addr, int data, Instruction instru
 
     //todo perfilacion /////////////////////////////////////////////////////////////////////////////////////////////
     sem_wait(&sem_debug_prints);
-    printf("PE: %d receive response\n", id);/////////////////////////////////////////////////////////////////////
+//    printf("PE: %d receive response\n", id);/////////////////////////////////////////////////////////////////////
     sem_post(&sem_debug_prints);
 }
 void PE_execute(int id)
 {
     PE *pe = PEs[id];
     Instruction* instruction = dequeue(pe->instructions);
-
-    //Borrar esta vrga todo ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    pe->reg = pe->reg+1;
-    //
 
     switch (instruction->type)
     {
@@ -943,56 +939,115 @@ void join_threads()
     }
     pthread_join(interconnect_thread, NULL);
 }
-
-
-///Main
-void start_execution(bool is_MESI_)
+void initialize()
 {
-    is_MESI = is_MESI_;
-
     /// --- Build structs ---
     /// Build PEs
     initialize_PEs(PEs);
     //construct_specific_PEs();
     construct_PEs(PEs);
     add_initial_cores_state(PEs);
-    //print_PEs(PEs);
 
     // // /// Build caches
     initialize_Caches(caches);
     construct_Caches(caches);
-    print_Caches(caches);
 
     // // /// Build interconnect
     initialize_Interconnect();
     construct_interconnect();
-    print_interconnect();
 
     // /// Build RAM
     fill_RAM(RAM);
-    print_RAM(RAM);
 
     // // /// Build Log
     initialize_MT_history_queue();
 
-    // // printf("\n\n////////////////////////////////////////////////////////\n\n");
-    // // printf("\n\n////////////////////////////////////////////////////////\n\n");
-    // // printf("\n\n////////////////////////////////////////////////////////\n\n");
+}
 
+///Main
+void start_execution(bool is_MESI_)
+{
+    is_MESI = is_MESI_;
+    initialize();
+
+    /// Copiadero
+    int pe_0_reg_copy = PEs[0]->reg;
+    int pe_1_reg_copy = PEs[1]->reg;
+    int pe_2_reg_copy = PEs[2]->reg;
+
+    Queue* pe_0_instructions_copy = malloc(sizeof(Queue));
+    Queue* pe_1_instructions_copy = malloc(sizeof(Queue));
+    Queue* pe_2_instructions_copy = malloc(sizeof(Queue));
+
+    Queue_copy(PEs[0]->instructions, pe_0_instructions_copy);
+    Queue_copy(PEs[1]->instructions, pe_1_instructions_copy);
+    Queue_copy(PEs[2]->instructions, pe_2_instructions_copy);
+
+
+    /// Ejecutadero MESI
+    print_PEs(PEs);
+    print_Caches(caches);
+    print_RAM(RAM);
+    print_interconnect();
     initialize_semaphores();
     start_threads();
     join_threads();
 
+    printf("\n\n////////////////////////////////////////////////////////\n\n");
+    printf("\n\n////////////////////////////////////////////////////////\n\n");
 
-    // print_PEs(PEs);
-    // print_Caches(caches);
-    // print_interconnect();
-    // print_RAM(RAM);
-
-    // printf("\n");
-    // printf("End!\n");
-
-    // printf("\n");
+    print_PEs(PEs);
+    print_Caches(caches);
+    print_interconnect();
+    print_RAM(RAM);
     print_log();
     clean();
+    printf("\n");
+    printf("End MESI!\n");
+    printf("\n");
+
+
+
+    /// Cambio de protocolo
+    is_MESI = false;
+
+
+    /// Reestablecedero
+    initialize();
+
+    PEs[0]->reg = pe_0_reg_copy;
+    PEs[1]->reg = pe_1_reg_copy;
+    PEs[2]->reg = pe_2_reg_copy;
+
+    Queue_copy(pe_0_instructions_copy, PEs[0]->instructions);
+    Queue_copy(pe_1_instructions_copy, PEs[1]->instructions);
+    Queue_copy(pe_2_instructions_copy, PEs[2]->instructions);
+
+    /// Ejecutadero MOESI
+    printf("\n\n////////////////////////////////////////////////////////\n\n");
+    printf("\n\n////////////////////////////////////////////////////////\n\n");
+    printf("\n\n////////////////////////////////////////////////////////\n\n");
+    printf("\n\n////////////////////////////////////////////////////////\n\n");
+
+    print_PEs(PEs);
+    print_Caches(caches);
+    print_RAM(RAM);
+    print_interconnect();
+    initialize_semaphores();
+    start_threads();
+    join_threads();
+
+    printf("\n\n////////////////////////////////////////////////////////\n\n");
+    printf("\n\n////////////////////////////////////////////////////////\n\n");
+    printf("\n\n////////////////////////////////////////////////////////\n\n");
+
+    print_PEs(PEs);
+    print_Caches(caches);
+    print_interconnect();
+    print_RAM(RAM);
+    print_log();
+    clean();
+    printf("\n");
+    printf("End MOESI!\n");
+    printf("\n");
 }

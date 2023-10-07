@@ -157,3 +157,26 @@ void Queue_msg_println(Queue* queue)
     }
     printf("\n");
 }
+void Queue_copy(Queue* original_queue, Queue* copy_queue)
+{
+    if(!Queue_is_empty(copy_queue))
+    {
+        SLL_node* piv;
+        piv=copy_queue->first;
+        while(piv != NULL)
+        {
+            piv = piv->next;
+            dequeue(copy_queue);
+        }
+    }
+    if(!Queue_is_empty(original_queue))
+    {
+        SLL_node* piv;
+        piv=original_queue->first;
+        while(piv != NULL)
+        {
+            enqueue(copy_queue, piv->data);
+            piv = piv->next;
+        }
+    }
+}

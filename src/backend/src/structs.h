@@ -56,6 +56,7 @@ void Queue_print_node_as_MT_msg(SLL_node* node);
 void Queue_int_println(Queue* queue);
 void Queue_instruction_println(Queue* queue);
 void Queue_msg_println(Queue* queue);
+void Queue_copy(Queue* original_queue, Queue* copy_queue);
 
 
 /// --- General Structs ---

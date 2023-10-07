@@ -79,6 +79,12 @@ char* process_command(char* buffer){
 
 int main(){
     srand(time(NULL));
+
+    start_events_recolection();
+    start_execution(true);
+    cJSON* result = finish_events_recolection();
+    return 0;
+
     create_socket("127.0.0.1", 4000);
     char buffer[MAX_BUFFER_SIZE];
     while (1) {

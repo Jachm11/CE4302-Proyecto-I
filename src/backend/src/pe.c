@@ -32,7 +32,7 @@ void print_PE(PE* pe)
 {
     printf("PE: %d\n", pe->id);
     printf("Instructions:\n");
-    Queue_instruction_println(pe->instructions);
+//    Queue_instruction_println(pe->instructions);
     printf("Reg: %d\n", pe->reg);
     printf("MT_done: %d\n", pe->MT_done);
 }
