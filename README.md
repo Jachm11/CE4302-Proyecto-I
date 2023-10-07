@@ -18,9 +18,9 @@ Realizado por Jose Alejandro Chavarría.
 
 
 
-### SO y architectura 
+### SO y arquitectura
 
-Este proyecto fue desarrollado en Linux, especificamente en `Ubuntu 18.0.4` y `Linux Mint 21.2 Victoria` para un arquitectura `x86_64`
+Este proyecto fue desarrollado en Linux, especificamente en `Ubuntu 18.04.6` y `Linux Mint 21.2 Victoria` para un arquitectura `x86_64`
 
 
 
