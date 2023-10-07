@@ -89,5 +89,5 @@ o bien, puedes dirijirse al directorio `bin` y ejecute el siguiente comando
 #
 ## Docs 
 
-[Manual de usuario](./docs/) <br>
+[Manual de usuario](https://github.com/Jachm11/CE4302-Proyecto-I/blob/final/doc/Manual%20de%20Usuario.pdf) <br>
 [White paper](./docs/white_paper) <br>
