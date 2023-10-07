@@ -4,11 +4,10 @@ using UnityEngine;
 using Newtonsoft.Json;
 using TMPro;
 using System.Net.Sockets;
-using Unity.VisualScripting;
-using Unity.Collections;
 using UnityEngine.UI;
 using System;
 using System.Text;
+using System.IO;
 
 public class Gamemaster : MonoBehaviour
 {
@@ -25,6 +24,7 @@ public class Gamemaster : MonoBehaviour
     public Button stepButton;
     public Button resetButton;
     public Button protocolButton;
+    public TextMeshProUGUI protocolButtonText;
     public Button cpu0Button;
     public Button cpu1Button;
     public Button cpu2Button;
@@ -52,11 +52,8 @@ public class Gamemaster : MonoBehaviour
         for (int i = 0; i < cpuObjects.Length; i++)
         {   
             Cpu cpuComponent = cpuObjects[i].GetComponent<Cpu>();
-
             char lastChar = cpuObjects[i].name[^1];
-
             int index = int.Parse(lastChar.ToString());
-
             cpus[index] = cpuComponent;
 
         }
@@ -66,11 +63,8 @@ public class Gamemaster : MonoBehaviour
         for (int i = 0; i < cpuCacheObjects.Length; i++)
         {
             Arrows cpuCacheComponent = cpuCacheObjects[i].GetComponent<Arrows>();
-
             char lastChar = cpuCacheObjects[i].name[^1];
-
             int index = int.Parse(lastChar.ToString());
-
             cpuCache[index] = cpuCacheComponent;
         }
 
@@ -79,11 +73,8 @@ public class Gamemaster : MonoBehaviour
         for (int i = 0; i < cacheObjects.Length; i++)
         {
             Cache cacheComponent = cacheObjects[i].GetComponent<Cache>();
-
             char lastChar = cacheObjects[i].name[^1];
-
             int index = int.Parse(lastChar.ToString());
-
             caches[index] = cacheComponent;
         }
 
@@ -92,17 +83,14 @@ public class Gamemaster : MonoBehaviour
         for (int i = 0; i < cacheBusObjects.Length; i++)
         {
             Arrows cacheBusComponent = cacheBusObjects[i].GetComponent<Arrows>();
-
             char lastChar = cacheBusObjects[i].name[^1];
-
             int index = int.Parse(lastChar.ToString());
-            
             cacheBus[index] = cacheBusComponent;
         }
 
         for (int i = 0; i < 3; i++)
         {
-            regs[i] = 0;
+            regs[i] = (i+1)*100;
         }
 
         bus = GameObject.FindGameObjectWithTag("BUS").GetComponent<Bus>();
@@ -117,6 +105,7 @@ public class Gamemaster : MonoBehaviour
         runButton.interactable = false;
         stepButton.interactable = false;
         resetButton.interactable = false;
+        protocol = "MESI";
 
     }
 
@@ -124,7 +113,6 @@ public class Gamemaster : MonoBehaviour
     {
         try
         {
-            protocol = "MESI";
 
             ConnectToServer();
 
@@ -142,13 +130,13 @@ public class Gamemaster : MonoBehaviour
             resetButton.interactable = true;
 
         
-            connectButtonText.text = "Request new code";
+            connectButtonText.text = "Request new instructions";
 
 
         }
         catch (System.Exception)
         {
-            
+            log.text += "\nCONNECTION ERROR: Server is down "+"\n";
             throw;
         }
         
@@ -185,6 +173,42 @@ public class Gamemaster : MonoBehaviour
         done = false;
         log.text = "";
 
+        for (int i = 0; i < 3; i++ )
+        {
+            cpus[i].ChangeRegister("R0 : " + (i+1)*100);
+            cpus[i].ChangeInstruction("");
+            
+            for(int j = 0; j < 4; j++)
+            {
+                string newText = "0x" + (j).ToString("X") + " : 00 : I";
+                caches[i].ChangeLine(newText,j);
+            }
+        }
+        for(int i = 0; i < 16; i++)
+            {
+                string newText = "0x" + (i).ToString("X") + " : " + (i+1)*1000;
+                ram.ChangeLine(newText,i);
+            }
+        for (int i = 0; i < 3; i++)
+        {
+            regs[i] = (i+1)*100;
+        }
+    }
+
+    public void ChangeProtocol()
+    {
+
+        if (protocol == "MESI")
+        {
+            protocol = "MOESI";
+            protocolButtonText.text = "MOESI"; 
+
+        }
+        else
+        {
+            protocol = "MESI";
+            protocolButtonText.text = "MESI"; 
+        }
 
     }
 
@@ -221,6 +245,7 @@ public class Gamemaster : MonoBehaviour
         catch (Exception e)
         {
             Debug.LogError("Error connecting to server: " + e.Message);
+            throw new Exception("Error connecting to server: " + e.Message);
         }
     }
 
@@ -229,7 +254,7 @@ public class Gamemaster : MonoBehaviour
         if (stream == null)
         {
             Debug.LogError("Not connected to the server.");
-            return;
+            throw new Exception("Not connected to the server");
         }
 
         try
@@ -246,22 +271,36 @@ public class Gamemaster : MonoBehaviour
             stream.Write(jsonRequest, 0, jsonRequest.Length);
             Debug.Log("Sent JSON data to server: " + json);
 
-            // Wait for a response from the server
-            byte[] buffer = new byte[20000];
-            int bytesRead = stream.Read(buffer, 0, buffer.Length);
-            string response = Encoding.UTF8.GetString(buffer, 0, bytesRead);
+            // Initialize a MemoryStream to store the received data
+            using (MemoryStream memoryStream = new MemoryStream())
+            {
+                // Create a temporary buffer for reading data
+                byte[] buffer = new byte[1024];
+                int bytesRead;
 
-            Debug.Log("Received response from server: " + response);
+                // Read data from the stream until the server closes the connection
+                while ((bytesRead = stream.Read(buffer, 0, buffer.Length)) > 0)
+                {
+                    // Write the read data to the MemoryStream
+                    memoryStream.Write(buffer, 0, bytesRead);
+                }
 
-            jsonData = response;
+                // Convert the received data to a string
+                string response = Encoding.UTF8.GetString(memoryStream.ToArray());
+
+                Debug.Log("Received response from server: " + response);
+
+                jsonData = response;
+            }
 
             Disconnect();
         }
         catch (Exception e)
         {
-            Debug.LogError("Error sending JSON data: " + e.Message);
+            Debug.LogError("Error sending/receiving JSON data: " + e.Message);
         }
     }
+
 
     private void Disconnect()
     {
@@ -306,6 +345,11 @@ public class Gamemaster : MonoBehaviour
                 cpus[transaction.core].ChangeInstruction(newInst);
                 yield return new WaitForSeconds(wait);
                 cpuCache[transaction.core].MoveDown();
+                if (transaction.type == "READ")
+                {
+                    yield return new WaitForSeconds(wait/2);
+                    cacheBus[transaction.core].MoveDown();
+                }   
             }
 
             yield return new WaitForSeconds(wait);
@@ -353,16 +397,9 @@ public class Gamemaster : MonoBehaviour
                     }
                     else
                     {
-                        newText = "0x" + (e.tag % 4).ToString("X") + " : " + e.data + " : " + state;
+                        newText = "0x" + e.tag.ToString("X") + " : " + e.data + " : " + state;
                         log.text += "       Cache " + e.element_id + " was written " + e.data + " on line " + (e.tag % 4).ToString("X") + "\n";
                         log.text += "       Line chaged to state " + state + "\n";
-
-                        // if (state == "I"){
-                        //     bus.Move(e.element_id,e.element_id);
-                        //     yield return new WaitForSeconds(wait);
-                        //     cacheBus[e.element_id].MoveUp();
-                        //     yield return new WaitForSeconds(wait);
-                        // }
                         caches[e.element_id].ChangeLine(newText, e.tag % 4);
                     }
 
@@ -415,6 +452,7 @@ public class Gamemaster : MonoBehaviour
             log.text +=  "Total read requests: " + execution.report.read_requests_count + "\n";
             log.text +=  "Total write requests: " + execution.report.write_requests_count + "\n";
             log.text +=  "Total RAM reads: " + execution.report.ram_reads_counter + "\n";
+            log.text +=  "Total write responses: " + execution.report.write_responses + "\n";
             log.text +=  "Total read responses: " + execution.report.read_responses + "\n";
             log.text +=  "Total cache invalidates: " + execution.report.invalidates_counter + "\n";
 
@@ -471,6 +509,7 @@ public class Report
     public int read_requests_count;
     public int write_requests_count;
     public int ram_reads_counter;
+    public int write_responses;
     public int read_responses;
     public int invalidates_counter;
 }

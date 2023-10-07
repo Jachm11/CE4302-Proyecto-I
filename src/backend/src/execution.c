@@ -903,7 +903,6 @@ void* interconnect_thread_f()
             finish_transaction();
             print_Caches(caches);
             print_RAM(RAM);
-            print_log();
             sem_post(&sem_debug_prints);
 
             /// Release PE to continue execution

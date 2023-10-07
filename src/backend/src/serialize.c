@@ -88,7 +88,7 @@ void add_report(int cores,
     cJSON_AddNumberToObject(report, "read_requests_count", read_requests_count);
     cJSON_AddNumberToObject(report, "write_requests_count", write_requests_count);
     cJSON_AddNumberToObject(report, "ram_reads_counter", ram_reads_count);
-    cJSON_AddNumberToObject(report, "read_responses", ram_writes_count);
+    cJSON_AddNumberToObject(report, "write_responses", ram_writes_count);
     cJSON_AddNumberToObject(report, "read_responses", read_response);
     cJSON_AddNumberToObject(report, "invalidates_counter", invalidates_count);
     cJSON_AddItemToObject(root, "report", report);
