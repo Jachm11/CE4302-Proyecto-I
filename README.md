@@ -18,7 +18,7 @@ Realizado por Jose Alejandro Chavarría.
 
 
 
-### SO y architectura 
+### SO y arquitectura 
 
 Este proyecto fue desarrollado en Linux, especificamente en `Ubuntu 18.0.4` y `Linux Mint 21.2 Victoria` para un arquitectura `x86_64`
 
@@ -89,5 +89,5 @@ o bien, puedes dirijirse al directorio `bin` y ejecute el siguiente comando
 #
 ## Docs 
 
-[Manual de usuario](./docs/) <br>
-[White paper](./docs/) <br>
+[Manual de usuario](./docs/manual_de_usuario.pdf) <br>
+[White paper](./docs/white_paper) <br>
