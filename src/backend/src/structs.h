@@ -177,7 +177,7 @@ void printf_color_reset();
 
 
 // Execution
-char* start_execution();
+char* start_execution(char* protocol);
 
 
 

@@ -966,11 +966,8 @@ void initialize()
 }
 
 ///Main
-char* start_execution()
+char* start_execution(char* protocol)
 {
-
-    cJSON* root = cJSON_CreateObject();
-
     start_events_recolection();
     is_MESI = true;
     initialize();
@@ -1011,11 +1008,10 @@ char* start_execution()
     printf("End MESI!\n");
     printf("\n");
 
-    cJSON* mesi_results = finish_events_recolection();
-
-    cJSON_AddItemToObject(root, "mesi", mesi_results);
-
-
+    cJSON* result_mesi = finish_events_recolection();
+    /// Cambio de protocolo
+    start_events_recolection();
+    is_MESI = false;
 
 
     /// Cambio de protocolo
@@ -1059,15 +1055,19 @@ char* start_execution()
     printf("\n");
     printf("End MOESI!\n");
     printf("\n");
+    cJSON* result_moesi = finish_events_recolection();
 
- 
-    cJSON* moesi_results = finish_events_recolection();
+    cJSON* result= cJSON_CreateObject();
+
+    cJSON_AddItemToObject(result, "mesi", result_mesi);
+    cJSON_AddItemToObject(result, "moesi", result_moesi);
+    return cJSON_PrintUnformatted(result);
 
 
-    cJSON_AddItemToObject(root, "mesi", mesi_results);
-    cJSON_AddItemToObject(root, "moesi", moesi_results);
-
-    return cJSON_PrintUnformatted(root);
-
+    // if(strcmp(protocol, "MESI") == 0){
+    //     return cJSON_PrintUnformatted(result_mesi);
+    // } else {
+    //     return  cJSON_PrintUnformatted(result_moesi);
+    // }
 
 }

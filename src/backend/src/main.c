@@ -48,23 +48,15 @@ char* process_command(char* buffer){
 
         cJSON *client_command = cJSON_Parse(buffer);
         char* command = cJSON_GetObjectItem(client_command, "command")->valuestring;
-        if(strcmp(command, "start") == 0){
-
-            // Start execution
-            printf("command %s \n", command);
-
-            char* result = start_execution();
-            return result;
-        } 
-        else {
-            // Invalid command
-        }
+        char* protocol = cJSON_GetObjectItem(client_command, "protocol")->valuestring;
+        char* result = start_execution(protocol);
+        printf("result %s \n", result);
+        return result;
 }
 
 
 int main(){
     srand(time(NULL));
-
     create_socket("127.0.0.1", 4000);
     char buffer[MAX_BUFFER_SIZE];
     while (1) {

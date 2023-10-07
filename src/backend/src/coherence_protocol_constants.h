@@ -8,7 +8,7 @@
 #define MAX_CORES 3
 /// MAX_INSTRUCYIONS = 4 es para pruebas unitarias
 //#define MAX_INSTRUCTIONS 4
-#define MAX_INSTRUCTIONS 10
+#define MAX_INSTRUCTIONS 5
 #define CACHE_ENTRIES 4
 #define MAX_RAM_RAND_VALUE 256
 #define NOBODY -1
