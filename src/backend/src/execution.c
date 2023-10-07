@@ -1057,17 +1057,17 @@ char* start_execution(char* protocol)
     printf("\n");
     cJSON* result_moesi = finish_events_recolection();
 
-    cJSON* result= cJSON_CreateObject();
+    //cJSON* result= cJSON_CreateObject();
 
-    cJSON_AddItemToObject(result, "mesi", result_mesi);
-    cJSON_AddItemToObject(result, "moesi", result_moesi);
-    return cJSON_PrintUnformatted(result);
+    // cJSON_AddItemToObject(result, "mesi", result_mesi);
+    // cJSON_AddItemToObject(result, "moesi", result_moesi);
+    // return cJSON_PrintUnformatted(result);
 
 
-    // if(strcmp(protocol, "MESI") == 0){
-    //     return cJSON_PrintUnformatted(result_mesi);
-    // } else {
-    //     return  cJSON_PrintUnformatted(result_moesi);
-    // }
+    if(strcmp(protocol, "MESI") == 0){
+        return cJSON_PrintUnformatted(result_mesi);
+    } else {
+        return  cJSON_PrintUnformatted(result_moesi);
+    }
 
 }
