@@ -271,29 +271,17 @@ public class Gamemaster : MonoBehaviour
             stream.Write(jsonRequest, 0, jsonRequest.Length);
             Debug.Log("Sent JSON data to server: " + json);
 
-            // Initialize a MemoryStream to store the received data
-            using (MemoryStream memoryStream = new MemoryStream())
-            {
-                // Create a temporary buffer for reading data
-                byte[] buffer = new byte[1024];
-                int bytesRead;
+            // Wait for a response from the server
+            byte[] buffer = new byte[4096];
+            int bytesRead = stream.Read(buffer, 0, buffer.Length);
+            string response = Encoding.UTF8.GetString(buffer, 0, bytesRead);
+            Debug.Log("Received response from server: " + response);
 
-                // Read data from the stream until the server closes the connection
-                while ((bytesRead = stream.Read(buffer, 0, buffer.Length)) > 0)
-                {
-                    // Write the read data to the MemoryStream
-                    memoryStream.Write(buffer, 0, bytesRead);
-                }
-
-                // Convert the received data to a string
-                string response = Encoding.UTF8.GetString(memoryStream.ToArray());
-
-                Debug.Log("Received response from server: " + response);
-
-                jsonData = response;
-            }
+            jsonData = response;
 
             Disconnect();
+
+            readFile();
         }
         catch (Exception e)
         {
@@ -309,6 +297,31 @@ public class Gamemaster : MonoBehaviour
             client.Close();
             Debug.Log("Socket closed.");
         }
+    }
+
+    private void readFile()
+    {
+    // /tmp/cache_exec_arqui.txt
+    string filePath = "/tmp/cache_exec_arqui.txt"; // Replace with the path to your text file
+
+        try
+        {
+            // Read the contents of the text file into a string variable
+            string jsonData = File.ReadAllText(filePath);
+
+            // Display the contents of the file
+            Console.WriteLine("File Contents:");
+            Console.WriteLine(jsonData);
+        }
+        catch (FileNotFoundException)
+        {
+            Console.WriteLine("The file does not exist.");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"An error occurred: {ex.Message}");
+        }
+
     }
 
     IEnumerator ProcessTransactions()

@@ -91,8 +91,15 @@ int main(){
             // You can send a response back to the client using send() here
             break;
         }
-
-        char* response = process_command(buffer);
+        // size_t response_size = 64 * 1024; // 50KB in bytes
+        // // Allocate memory for the response buffer
+        // char* response = (char*)malloc(response_size);
+        // if (response == NULL) {
+        //     perror("Memory allocation failed");
+        // } else {
+        //    char* response = process_command(buffer);
+        // }
+        char *response = process_command(buffer);
 
         if (send(client_socket, response, strlen(response), 0) == -1) {
                 perror("Send failed");
@@ -100,7 +107,9 @@ int main(){
                 break; // Close the connection if send fails
         }
 
-        close(client_socket);
+        free(response);
+
+        //close(client_socket);
     }
 
     close(server_socket);
