@@ -1,0 +1,1602 @@
+PE: 0
+Instructions:
+Reg: 100
+MT_done: 1
+
+PE: 1
+Instructions:
+Reg: 200
+MT_done: 1
+
+PE: 2
+Instructions:
+Reg: 300
+MT_done: 1
+
+[0;34mCache: 0
+Lines:
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+
+Cache: 1
+Lines:
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+
+Cache: 2
+Lines:
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+
+[0m[1;31mRAM:
+[ 0:1000 1:2000 2:3000 3:4000 4:5000 5:6000 6:7000 7:8000 8:9000 9:10000 10:11000 11:12000 12:13000 13:14000 14:15000 15:16000 ]
+[0mInterconnect messages:
+Empty
+
+[0;32mPE: 0. Increment executed: Reg 100->101
+[0m[0;32mPE: 0 send
+{
+	Id: 0, Request: WRITE_REQUEST, Mem addr: 4, Data: 101
+}
+[0mInterconnect receive (0)
+{
+	Id: 0, Request: WRITE_REQUEST, Mem addr: 4, Data: 101
+}
+[0;35mInterconnect/MESI_broadcast_invalidate/triggered by $:0 T:4/No one else has the data
+[0m[1;33mInterconnect/MESI/$:0 T:4/local transition: Invalid->Modified
+[0m[0;34mCache: 0
+Lines:
+Tag: 4	Valid: 1	Dirty: 1	State: M	Data: 101
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+
+Cache: 1
+Lines:
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+
+Cache: 2
+Lines:
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+
+[0m[1;31mRAM:
+[ 0:1000 1:2000 2:3000 3:4000 4:5000 5:6000 6:7000 7:8000 8:9000 9:10000 10:11000 11:12000 12:13000 13:14000 14:15000 15:16000 ]
+[0m[0;32mPE: 1 send
+{
+	Id: 1, Request: WRITE_REQUEST, Mem addr: 12, Data: 200
+}
+[0m[0;32mPE: 2. Increment executed: Reg 300->301
+[0m[0;32mPE: 2 send
+{
+	Id: 2, Request: READ_REQUEST, Mem addr: 14, Data: 301
+}
+[0mInterconnect receive (1)
+{
+	Id: 1, Request: WRITE_REQUEST, Mem addr: 12, Data: 200
+}
+[0;35mInterconnect/MESI_broadcast_invalidate/triggered by $:1 T:12/No one else has the data
+[0m[1;33mInterconnect/MESI/$:1 T:12/local transition: Invalid->Modified
+[0m[0;34mCache: 0
+Lines:
+Tag: 4	Valid: 1	Dirty: 1	State: M	Data: 101
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+
+Cache: 1
+Lines:
+Tag: 12	Valid: 1	Dirty: 1	State: M	Data: 200
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+
+Cache: 2
+Lines:
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+
+[0m[1;31mRAM:
+[ 0:1000 1:2000 2:3000 3:4000 4:5000 5:6000 6:7000 7:8000 8:9000 9:10000 10:11000 11:12000 12:13000 13:14000 14:15000 15:16000 ]
+[0mInterconnect receive (2)
+{
+	Id: 2, Request: READ_REQUEST, Mem addr: 14, Data: 301
+}
+[1;33mInterconnect/MESI/$:2 T:14/local transition: Invalid->Exclusive
+[0m[0;34mCache: 0
+Lines:
+Tag: 4	Valid: 1	Dirty: 1	State: M	Data: 101
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+
+Cache: 1
+Lines:
+Tag: 12	Valid: 1	Dirty: 1	State: M	Data: 200
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+
+Cache: 2
+Lines:
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 14	Valid: 1	Dirty: 0	State: E	Data: 15000
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+
+[0m[1;31mRAM:
+[ 0:1000 1:2000 2:3000 3:4000 4:5000 5:6000 6:7000 7:8000 8:9000 9:10000 10:11000 11:12000 12:13000 13:14000 14:15000 15:16000 ]
+[0m[0;32mPE: 2 send
+{
+	Id: 2, Request: WRITE_REQUEST, Mem addr: 7, Data: 301
+}
+[0mInterconnect receive (3)
+{
+	Id: 2, Request: WRITE_REQUEST, Mem addr: 7, Data: 301
+}
+[0;35mInterconnect/MESI_broadcast_invalidate/triggered by $:2 T:7/No one else has the data
+[0m[1;33mInterconnect/MESI/$:2 T:7/local transition: Invalid->Modified
+[0m[0;34mCache: 0
+Lines:
+Tag: 4	Valid: 1	Dirty: 1	State: M	Data: 101
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+
+Cache: 1
+Lines:
+Tag: 12	Valid: 1	Dirty: 1	State: M	Data: 200
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+
+Cache: 2
+Lines:
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 14	Valid: 1	Dirty: 0	State: E	Data: 15000
+Tag: 7	Valid: 1	Dirty: 1	State: M	Data: 301
+
+[0m[1;31mRAM:
+[ 0:1000 1:2000 2:3000 3:4000 4:5000 5:6000 6:7000 7:8000 8:9000 9:10000 10:11000 11:12000 12:13000 13:14000 14:15000 15:16000 ]
+[0m[0;32mPE: 1 send
+{
+	Id: 1, Request: READ_REQUEST, Mem addr: 8, Data: 200
+}
+[0mInterconnect receive (4)
+{
+	Id: 1, Request: READ_REQUEST, Mem addr: 8, Data: 200
+}
+[0;32mPE: 2 send
+{
+	Id: 2, Request: WRITE_REQUEST, Mem addr: 4, Data: 301
+}
+[0m[0;32mPE: 0. Increment executed: Reg 101->102
+[0m[0;32mPE: 0. Increment executed: Reg 102->103
+[0m[0;32mPE: 0 send
+{
+	Id: 0, Request: READ_REQUEST, Mem addr: 0, Data: 103
+}
+[0m[0;36mInterconnect/MESI_check_flush_to_memory/$:1 T:12/Implicit local transition: Modified->Invalid/Flush (200) to RAM[12]
+[0m[1;33mInterconnect/MESI/$:1 T:8/local transition: Invalid->Exclusive
+[0m[0;34mCache: 0
+Lines:
+Tag: 4	Valid: 1	Dirty: 1	State: M	Data: 101
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+
+Cache: 1
+Lines:
+Tag: 8	Valid: 1	Dirty: 0	State: E	Data: 9000
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+
+Cache: 2
+Lines:
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 14	Valid: 1	Dirty: 0	State: E	Data: 15000
+Tag: 7	Valid: 1	Dirty: 1	State: M	Data: 301
+
+[0m[1;31mRAM:
+[ 0:1000 1:2000 2:3000 3:4000 4:5000 5:6000 6:7000 7:8000 8:9000 9:10000 10:11000 11:12000 12:200 13:14000 14:15000 15:16000 ]
+[0mInterconnect receive (5)
+{
+	Id: 2, Request: WRITE_REQUEST, Mem addr: 4, Data: 301
+}
+[0;35mInterconnect/MESI_broadcast_invalidate/triggered by $:2 T:4
+[0m[0;36mInterconnect/MESI_check_flush_to_memory/$:0 T:4/Implicit remote transition: Modified->Invalid/Flush (101) to RAM[4]
+[0m[1;33mInterconnect/MESI/$:2 T:4/local transition: Invalid->Modified
+[0m[0;34mCache: 0
+Lines:
+Tag: 4	Valid: 0	Dirty: 0	State: I	Data: 101
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+
+Cache: 1
+Lines:
+Tag: 8	Valid: 1	Dirty: 0	State: E	Data: 9000
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+
+Cache: 2
+Lines:
+Tag: 4	Valid: 1	Dirty: 1	State: M	Data: 301
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 14	Valid: 1	Dirty: 0	State: E	Data: 15000
+Tag: 7	Valid: 1	Dirty: 1	State: M	Data: 301
+
+[0m[1;31mRAM:
+[ 0:1000 1:2000 2:3000 3:4000 4:101 5:6000 6:7000 7:8000 8:9000 9:10000 10:11000 11:12000 12:200 13:14000 14:15000 15:16000 ]
+[0mInterconnect receive (6)
+{
+	Id: 0, Request: READ_REQUEST, Mem addr: 0, Data: 103
+}
+[0;32mPE: 1 send
+{
+	Id: 1, Request: WRITE_REQUEST, Mem addr: 14, Data: 200
+}
+[0m[0;32mPE: 2 send
+{
+	Id: 2, Request: READ_REQUEST, Mem addr: 8, Data: 301
+}
+[0m[1;33mInterconnect/MESI/$:0 T:0/local transition: Invalid->Exclusive
+[0m[0;34mCache: 0
+Lines:
+Tag: 0	Valid: 1	Dirty: 0	State: E	Data: 1000
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+
+Cache: 1
+Lines:
+Tag: 8	Valid: 1	Dirty: 0	State: E	Data: 9000
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+
+Cache: 2
+Lines:
+Tag: 4	Valid: 1	Dirty: 1	State: M	Data: 301
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 14	Valid: 1	Dirty: 0	State: E	Data: 15000
+Tag: 7	Valid: 1	Dirty: 1	State: M	Data: 301
+
+[0m[1;31mRAM:
+[ 0:1000 1:2000 2:3000 3:4000 4:101 5:6000 6:7000 7:8000 8:9000 9:10000 10:11000 11:12000 12:200 13:14000 14:15000 15:16000 ]
+[0m[0;32mPE: 0 send
+{
+	Id: 0, Request: READ_REQUEST, Mem addr: 12, Data: 103
+}
+[0mInterconnect receive (7)
+{
+	Id: 1, Request: WRITE_REQUEST, Mem addr: 14, Data: 200
+}
+[0;35mInterconnect/MESI_broadcast_invalidate/triggered by $:1 T:14
+[0m[1;33mInterconnect/MESI_check_flush_to_memory/$:2 T:14/Implicit remote transition: Exclusive->Invalid
+[0m[1;33mInterconnect/MESI/$:1 T:14/local transition: Invalid->Modified
+[0m[0;34mCache: 0
+Lines:
+Tag: 0	Valid: 1	Dirty: 0	State: E	Data: 1000
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+
+Cache: 1
+Lines:
+Tag: 8	Valid: 1	Dirty: 0	State: E	Data: 9000
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 14	Valid: 1	Dirty: 1	State: M	Data: 200
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+
+Cache: 2
+Lines:
+Tag: 4	Valid: 1	Dirty: 1	State: M	Data: 301
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 14	Valid: 0	Dirty: 0	State: I	Data: 15000
+Tag: 7	Valid: 1	Dirty: 1	State: M	Data: 301
+
+[0m[1;31mRAM:
+[ 0:1000 1:2000 2:3000 3:4000 4:101 5:6000 6:7000 7:8000 8:9000 9:10000 10:11000 11:12000 12:200 13:14000 14:15000 15:16000 ]
+[0mInterconnect receive (8)
+{
+	Id: 2, Request: READ_REQUEST, Mem addr: 8, Data: 301
+}
+[0;35mInterconnect/MESI_set_remote_share_states/triggered by $:2 T:8
+[0m[1;33mInterconnect/MESI_check_flush_to_memory/$:1 T:8/Implicit remote transition: Exclusive->Shared
+[0m[0;36mInterconnect/MESI_check_flush_to_memory/$:2 T:4/Implicit local transition: Modified->Invalid/Flush (301) to RAM[4]
+[0m[0;35mInterconnect/MESI/$:2 T:8/Data (9000) move between caches: 1 -> 2
+[0m[1;33mInterconnect/MESI/$:2 T:8/local transition: Invalid->Shared
+[0m[0;34mCache: 0
+Lines:
+Tag: 0	Valid: 1	Dirty: 0	State: E	Data: 1000
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+
+Cache: 1
+Lines:
+Tag: 8	Valid: 1	Dirty: 0	State: S	Data: 9000
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 14	Valid: 1	Dirty: 1	State: M	Data: 200
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+
+Cache: 2
+Lines:
+Tag: 8	Valid: 1	Dirty: 0	State: S	Data: 9000
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 14	Valid: 0	Dirty: 0	State: I	Data: 15000
+Tag: 7	Valid: 1	Dirty: 1	State: M	Data: 301
+
+[0m[1;31mRAM:
+[ 0:1000 1:2000 2:3000 3:4000 4:301 5:6000 6:7000 7:8000 8:9000 9:10000 10:11000 11:12000 12:200 13:14000 14:15000 15:16000 ]
+[0mInterconnect receive (9)
+{
+	Id: 0, Request: READ_REQUEST, Mem addr: 12, Data: 103
+}
+[1;33mInterconnect/MESI_check_flush_to_memory/$:0 T:0/Implicit local transition: Exclusive->Invalid
+[0m[1;33mInterconnect/MESI/$:0 T:12/local transition: Invalid->Exclusive
+[0m[0;34mCache: 0
+Lines:
+Tag: 12	Valid: 1	Dirty: 0	State: E	Data: 200
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+
+Cache: 1
+Lines:
+Tag: 8	Valid: 1	Dirty: 0	State: S	Data: 9000
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 14	Valid: 1	Dirty: 1	State: M	Data: 200
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+
+Cache: 2
+Lines:
+Tag: 8	Valid: 1	Dirty: 0	State: S	Data: 9000
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 14	Valid: 0	Dirty: 0	State: I	Data: 15000
+Tag: 7	Valid: 1	Dirty: 1	State: M	Data: 301
+
+[0m[1;31mRAM:
+[ 0:1000 1:2000 2:3000 3:4000 4:301 5:6000 6:7000 7:8000 8:9000 9:10000 10:11000 11:12000 12:200 13:14000 14:15000 15:16000 ]
+[0m[0;32mPE: 1 send
+{
+	Id: 1, Request: READ_REQUEST, Mem addr: 7, Data: 200
+}
+[0m[0;32mPE: 2 send
+{
+	Id: 2, Request: WRITE_REQUEST, Mem addr: 4, Data: 301
+}
+[0mInterconnect receive (10)
+{
+	Id: 1, Request: READ_REQUEST, Mem addr: 7, Data: 200
+}
+[0;35mInterconnect/MESI_set_remote_share_states/triggered by $:1 T:7
+[0m[0;32mPE: 0. Increment executed: Reg 103->104
+[0m[0;32mPE: 0. Increment executed: Reg 104->105
+[0m[0;36mInterconnect/MESI_check_flush_to_memory/$:2 T:7/Implicit remote transition: Modified->Shared/Flush (301) to RAM[7]
+[0m[0;35mInterconnect/MESI/$:1 T:7/Data (301) move between caches: 2 -> 1
+[0m[1;33mInterconnect/MESI/$:1 T:7/local transition: Invalid->Shared
+[0m[0;32mPE: 0. Increment executed: Reg 105->106
+[0m[0;32mPE: 0 send
+{
+	Id: 0, Request: WRITE_REQUEST, Mem addr: 14, Data: 106
+}
+[0m[0;34mCache: 0
+Lines:
+Tag: 12	Valid: 1	Dirty: 0	State: E	Data: 200
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+
+Cache: 1
+Lines:
+Tag: 8	Valid: 1	Dirty: 0	State: S	Data: 9000
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 14	Valid: 1	Dirty: 1	State: M	Data: 200
+Tag: 7	Valid: 1	Dirty: 0	State: S	Data: 301
+
+Cache: 2
+Lines:
+Tag: 8	Valid: 1	Dirty: 0	State: S	Data: 9000
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 14	Valid: 0	Dirty: 0	State: I	Data: 15000
+Tag: 7	Valid: 1	Dirty: 0	State: S	Data: 301
+
+[0m[1;31mRAM:
+[ 0:1000 1:2000 2:3000 3:4000 4:301 5:6000 6:7000 7:301 8:9000 9:10000 10:11000 11:12000 12:200 13:14000 14:15000 15:16000 ]
+[0mInterconnect receive (11)
+{
+	Id: 2, Request: WRITE_REQUEST, Mem addr: 4, Data: 301
+}
+[0;35mInterconnect/MESI_broadcast_invalidate/triggered by $:2 T:4/No one else has the data
+[0m[0;32mPE: 1. Increment executed: Reg 200->201
+[0m[0;32mPE: 1 send
+{
+	Id: 1, Request: READ_REQUEST, Mem addr: 1, Data: 201
+}
+[0m[1;33mInterconnect/MESI_check_flush_to_memory/$:2 T:8/Implicit local transition: Shared->Invalid
+[0m[1;33mInterconnect/MESI/$:2 T:4/local transition: Invalid->Modified
+[0m[0;34mCache: 0
+Lines:
+Tag: 12	Valid: 1	Dirty: 0	State: E	Data: 200
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+
+Cache: 1
+Lines:
+Tag: 8	Valid: 1	Dirty: 0	State: S	Data: 9000
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 14	Valid: 1	Dirty: 1	State: M	Data: 200
+Tag: 7	Valid: 1	Dirty: 0	State: S	Data: 301
+
+Cache: 2
+Lines:
+Tag: 4	Valid: 1	Dirty: 1	State: M	Data: 301
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 14	Valid: 0	Dirty: 0	State: I	Data: 15000
+Tag: 7	Valid: 1	Dirty: 0	State: S	Data: 301
+
+[0m[1;31mRAM:
+[ 0:1000 1:2000 2:3000 3:4000 4:301 5:6000 6:7000 7:301 8:9000 9:10000 10:11000 11:12000 12:200 13:14000 14:15000 15:16000 ]
+[0mInterconnect receive (12)
+{
+	Id: 0, Request: WRITE_REQUEST, Mem addr: 14, Data: 106
+}
+[0;35mInterconnect/MESI_broadcast_invalidate/triggered by $:0 T:14
+[0m[0;32mPE: 2 send
+{
+	Id: 2, Request: WRITE_REQUEST, Mem addr: 14, Data: 301
+}
+[0m[0;36mInterconnect/MESI_check_flush_to_memory/$:1 T:14/Implicit remote transition: Modified->Invalid/Flush (200) to RAM[14]
+[0m[1;33mInterconnect/MESI/$:0 T:14/local transition: Invalid->Modified
+[0m[0;34mCache: 0
+Lines:
+Tag: 12	Valid: 1	Dirty: 0	State: E	Data: 200
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 14	Valid: 1	Dirty: 1	State: M	Data: 106
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+
+Cache: 1
+Lines:
+Tag: 8	Valid: 1	Dirty: 0	State: S	Data: 9000
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 14	Valid: 0	Dirty: 0	State: I	Data: 200
+Tag: 7	Valid: 1	Dirty: 0	State: S	Data: 301
+
+Cache: 2
+Lines:
+Tag: 4	Valid: 1	Dirty: 1	State: M	Data: 301
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 14	Valid: 0	Dirty: 0	State: I	Data: 15000
+Tag: 7	Valid: 1	Dirty: 0	State: S	Data: 301
+
+[0m[1;31mRAM:
+[ 0:1000 1:2000 2:3000 3:4000 4:301 5:6000 6:7000 7:301 8:9000 9:10000 10:11000 11:12000 12:200 13:14000 14:200 15:16000 ]
+[0m[0;32mPE:0 END
+
+[0mInterconnect receive (13)
+{
+	Id: 1, Request: READ_REQUEST, Mem addr: 1, Data: 201
+}
+[1;33mInterconnect/MESI/$:1 T:1/local transition: Invalid->Exclusive
+[0m[0;34mCache: 0
+Lines:
+Tag: 12	Valid: 1	Dirty: 0	State: E	Data: 200
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 14	Valid: 1	Dirty: 1	State: M	Data: 106
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+
+Cache: 1
+Lines:
+Tag: 8	Valid: 1	Dirty: 0	State: S	Data: 9000
+Tag: 1	Valid: 1	Dirty: 0	State: E	Data: 2000
+Tag: 14	Valid: 0	Dirty: 0	State: I	Data: 200
+Tag: 7	Valid: 1	Dirty: 0	State: S	Data: 301
+
+Cache: 2
+Lines:
+Tag: 4	Valid: 1	Dirty: 1	State: M	Data: 301
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 14	Valid: 0	Dirty: 0	State: I	Data: 15000
+Tag: 7	Valid: 1	Dirty: 0	State: S	Data: 301
+
+[0m[1;31mRAM:
+[ 0:1000 1:2000 2:3000 3:4000 4:301 5:6000 6:7000 7:301 8:9000 9:10000 10:11000 11:12000 12:200 13:14000 14:200 15:16000 ]
+[0mInterconnect receive (14)
+{
+	Id: 2, Request: WRITE_REQUEST, Mem addr: 14, Data: 301
+}
+[0;35mInterconnect/MESI_broadcast_invalidate/triggered by $:2 T:14
+[0m[0;32mPE: 1 send
+{
+	Id: 1, Request: READ_REQUEST, Mem addr: 6, Data: 201
+}
+[0m[0;36mInterconnect/MESI_check_flush_to_memory/$:0 T:14/Implicit remote transition: Modified->Invalid/Flush (106) to RAM[14]
+[0m[1;33mInterconnect/MESI/$:2 T:14/local transition: Invalid->Modified
+[0m[0;34mCache: 0
+Lines:
+Tag: 12	Valid: 1	Dirty: 0	State: E	Data: 200
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 14	Valid: 0	Dirty: 0	State: I	Data: 106
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+
+Cache: 1
+Lines:
+Tag: 8	Valid: 1	Dirty: 0	State: S	Data: 9000
+Tag: 1	Valid: 1	Dirty: 0	State: E	Data: 2000
+Tag: 14	Valid: 0	Dirty: 0	State: I	Data: 200
+Tag: 7	Valid: 1	Dirty: 0	State: S	Data: 301
+
+Cache: 2
+Lines:
+Tag: 4	Valid: 1	Dirty: 1	State: M	Data: 301
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 14	Valid: 1	Dirty: 1	State: M	Data: 301
+Tag: 7	Valid: 1	Dirty: 0	State: S	Data: 301
+
+[0m[1;31mRAM:
+[ 0:1000 1:2000 2:3000 3:4000 4:301 5:6000 6:7000 7:301 8:9000 9:10000 10:11000 11:12000 12:200 13:14000 14:106 15:16000 ]
+[0mInterconnect receive (15)
+{
+	Id: 1, Request: READ_REQUEST, Mem addr: 6, Data: 201
+}
+[1;33mInterconnect/MESI/$:1 T:6/local transition: Invalid->Exclusive
+[0m[0;34mCache: 0
+Lines:
+Tag: 12	Valid: 1	Dirty: 0	State: E	Data: 200
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 14	Valid: 0	Dirty: 0	State: I	Data: 106
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+
+Cache: 1
+Lines:
+Tag: 8	Valid: 1	Dirty: 0	State: S	Data: 9000
+Tag: 1	Valid: 1	Dirty: 0	State: E	Data: 2000
+Tag: 6	Valid: 1	Dirty: 0	State: E	Data: 7000
+Tag: 7	Valid: 1	Dirty: 0	State: S	Data: 301
+
+Cache: 2
+Lines:
+Tag: 4	Valid: 1	Dirty: 1	State: M	Data: 301
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 14	Valid: 1	Dirty: 1	State: M	Data: 301
+Tag: 7	Valid: 1	Dirty: 0	State: S	Data: 301
+
+[0m[1;31mRAM:
+[ 0:1000 1:2000 2:3000 3:4000 4:301 5:6000 6:7000 7:301 8:9000 9:10000 10:11000 11:12000 12:200 13:14000 14:106 15:16000 ]
+[0m[0;32mPE: 1 send
+{
+	Id: 1, Request: WRITE_REQUEST, Mem addr: 13, Data: 201
+}
+[0m[0;32mPE: 2. Increment executed: Reg 301->302
+[0m[0;32mPE: 2 send
+{
+	Id: 2, Request: READ_REQUEST, Mem addr: 1, Data: 302
+}
+[0mInterconnect receive (16)
+{
+	Id: 1, Request: WRITE_REQUEST, Mem addr: 13, Data: 201
+}
+[0;35mInterconnect/MESI_broadcast_invalidate/triggered by $:1 T:13/No one else has the data
+[0m[1;33mInterconnect/MESI_check_flush_to_memory/$:1 T:1/Implicit local transition: Exclusive->Invalid
+[0m[1;33mInterconnect/MESI/$:1 T:13/local transition: Invalid->Modified
+[0m[0;34mCache: 0
+Lines:
+Tag: 12	Valid: 1	Dirty: 0	State: E	Data: 200
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 14	Valid: 0	Dirty: 0	State: I	Data: 106
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+
+Cache: 1
+Lines:
+Tag: 8	Valid: 1	Dirty: 0	State: S	Data: 9000
+Tag: 13	Valid: 1	Dirty: 1	State: M	Data: 201
+Tag: 6	Valid: 1	Dirty: 0	State: E	Data: 7000
+Tag: 7	Valid: 1	Dirty: 0	State: S	Data: 301
+
+Cache: 2
+Lines:
+Tag: 4	Valid: 1	Dirty: 1	State: M	Data: 301
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 14	Valid: 1	Dirty: 1	State: M	Data: 301
+Tag: 7	Valid: 1	Dirty: 0	State: S	Data: 301
+
+[0m[1;31mRAM:
+[ 0:1000 1:2000 2:3000 3:4000 4:301 5:6000 6:7000 7:301 8:9000 9:10000 10:11000 11:12000 12:200 13:14000 14:106 15:16000 ]
+[0m[0;32mPE: 1 send
+{
+	Id: 1, Request: READ_REQUEST, Mem addr: 9, Data: 201
+}
+[0mInterconnect receive (17)
+{
+	Id: 2, Request: READ_REQUEST, Mem addr: 1, Data: 302
+}
+[1;33mInterconnect/MESI/$:2 T:1/local transition: Invalid->Exclusive
+[0m[0;34mCache: 0
+Lines:
+Tag: 12	Valid: 1	Dirty: 0	State: E	Data: 200
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 14	Valid: 0	Dirty: 0	State: I	Data: 106
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+
+Cache: 1
+Lines:
+Tag: 8	Valid: 1	Dirty: 0	State: S	Data: 9000
+Tag: 13	Valid: 1	Dirty: 1	State: M	Data: 201
+Tag: 6	Valid: 1	Dirty: 0	State: E	Data: 7000
+Tag: 7	Valid: 1	Dirty: 0	State: S	Data: 301
+
+Cache: 2
+Lines:
+Tag: 4	Valid: 1	Dirty: 1	State: M	Data: 301
+Tag: 1	Valid: 1	Dirty: 0	State: E	Data: 2000
+Tag: 14	Valid: 1	Dirty: 1	State: M	Data: 301
+Tag: 7	Valid: 1	Dirty: 0	State: S	Data: 301
+
+[0m[1;31mRAM:
+[ 0:1000 1:2000 2:3000 3:4000 4:301 5:6000 6:7000 7:301 8:9000 9:10000 10:11000 11:12000 12:200 13:14000 14:106 15:16000 ]
+[0m[0;32mPE: 2. Increment executed: Reg 302->303
+[0m[0;32mPE:2 END
+
+[0mInterconnect receive (18)
+{
+	Id: 1, Request: READ_REQUEST, Mem addr: 9, Data: 201
+}
+[0;36mInterconnect/MESI_check_flush_to_memory/$:1 T:13/Implicit local transition: Modified->Invalid/Flush (201) to RAM[13]
+[0m[1;33mInterconnect/MESI/$:1 T:9/local transition: Invalid->Exclusive
+[0m[0;34mCache: 0
+Lines:
+Tag: 12	Valid: 1	Dirty: 0	State: E	Data: 200
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 14	Valid: 0	Dirty: 0	State: I	Data: 106
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+
+Cache: 1
+Lines:
+Tag: 8	Valid: 1	Dirty: 0	State: S	Data: 9000
+Tag: 9	Valid: 1	Dirty: 0	State: E	Data: 10000
+Tag: 6	Valid: 1	Dirty: 0	State: E	Data: 7000
+Tag: 7	Valid: 1	Dirty: 0	State: S	Data: 301
+
+Cache: 2
+Lines:
+Tag: 4	Valid: 1	Dirty: 1	State: M	Data: 301
+Tag: 1	Valid: 1	Dirty: 0	State: E	Data: 2000
+Tag: 14	Valid: 1	Dirty: 1	State: M	Data: 301
+Tag: 7	Valid: 1	Dirty: 0	State: S	Data: 301
+
+[0m[1;31mRAM:
+[ 0:1000 1:2000 2:3000 3:4000 4:301 5:6000 6:7000 7:301 8:9000 9:10000 10:11000 11:12000 12:200 13:201 14:106 15:16000 ]
+[0m[0;32mPE: 1 send
+{
+	Id: 1, Request: WRITE_REQUEST, Mem addr: 0, Data: 201
+}
+[0mInterconnect receive (19)
+{
+	Id: 1, Request: WRITE_REQUEST, Mem addr: 0, Data: 201
+}
+[0;35mInterconnect/MESI_broadcast_invalidate/triggered by $:1 T:0/No one else has the data
+[0m[1;33mInterconnect/MESI_check_flush_to_memory/$:1 T:8/Implicit local transition: Shared->Invalid
+[0m[1;33mInterconnect/MESI/$:1 T:0/local transition: Invalid->Modified
+[0m[0;34mCache: 0
+Lines:
+Tag: 12	Valid: 1	Dirty: 0	State: E	Data: 200
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 14	Valid: 0	Dirty: 0	State: I	Data: 106
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+
+Cache: 1
+Lines:
+Tag: 0	Valid: 1	Dirty: 1	State: M	Data: 201
+Tag: 9	Valid: 1	Dirty: 0	State: E	Data: 10000
+Tag: 6	Valid: 1	Dirty: 0	State: E	Data: 7000
+Tag: 7	Valid: 1	Dirty: 0	State: S	Data: 301
+
+Cache: 2
+Lines:
+Tag: 4	Valid: 1	Dirty: 1	State: M	Data: 301
+Tag: 1	Valid: 1	Dirty: 0	State: E	Data: 2000
+Tag: 14	Valid: 1	Dirty: 1	State: M	Data: 301
+Tag: 7	Valid: 1	Dirty: 0	State: S	Data: 301
+
+[0m[1;31mRAM:
+[ 0:1000 1:2000 2:3000 3:4000 4:301 5:6000 6:7000 7:301 8:9000 9:10000 10:11000 11:12000 12:200 13:201 14:106 15:16000 ]
+[0m[0;32mPE:1 END
+
+[0m[0;32mInterconnect ENDED
+
+[0m
+
+////////////////////////////////////////////////////////
+
+
+
+////////////////////////////////////////////////////////
+
+PE: 0
+Instructions:
+Reg: 106
+MT_done: 1
+
+PE: 1
+Instructions:
+Reg: 201
+MT_done: 1
+
+PE: 2
+Instructions:
+Reg: 303
+MT_done: 1
+
+[0;34mCache: 0
+Lines:
+Tag: 12	Valid: 1	Dirty: 0	State: E	Data: 200
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 14	Valid: 0	Dirty: 0	State: I	Data: 106
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+
+Cache: 1
+Lines:
+Tag: 0	Valid: 1	Dirty: 1	State: M	Data: 201
+Tag: 9	Valid: 1	Dirty: 0	State: E	Data: 10000
+Tag: 6	Valid: 1	Dirty: 0	State: E	Data: 7000
+Tag: 7	Valid: 1	Dirty: 0	State: S	Data: 301
+
+Cache: 2
+Lines:
+Tag: 4	Valid: 1	Dirty: 1	State: M	Data: 301
+Tag: 1	Valid: 1	Dirty: 0	State: E	Data: 2000
+Tag: 14	Valid: 1	Dirty: 1	State: M	Data: 301
+Tag: 7	Valid: 1	Dirty: 0	State: S	Data: 301
+
+[0mInterconnect messages:
+Empty
+
+[1;31mRAM:
+[ 0:1000 1:2000 2:3000 3:4000 4:301 5:6000 6:7000 7:301 8:9000 9:10000 10:11000 11:12000 12:200 13:201 14:106 15:16000 ]
+[0mPEs: 3
+Instructions per core: 10
+Blocks per cache: 4
+Blocks per RAM: 16
+Increments counter: 10
+Interconnect read requests counter: 10
+Interconnect write requests counter: 10
+RAM reads counter: 8
+RAM writes counter: 7
+Cache data shares counter: 2
+Invalidates counter: 11
+
+MT History:
+
+End MESI!
+
+
+
+////////////////////////////////////////////////////////
+
+
+
+////////////////////////////////////////////////////////
+
+
+
+////////////////////////////////////////////////////////
+
+
+
+////////////////////////////////////////////////////////
+
+PE: 0
+Instructions:
+Reg: 100
+MT_done: 1
+
+PE: 1
+Instructions:
+Reg: 200
+MT_done: 1
+
+PE: 2
+Instructions:
+Reg: 300
+MT_done: 1
+
+[0;34mCache: 0
+Lines:
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+
+Cache: 1
+Lines:
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+
+Cache: 2
+Lines:
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+
+[0m[1;31mRAM:
+[ 0:1000 1:2000 2:3000 3:4000 4:5000 5:6000 6:7000 7:8000 8:9000 9:10000 10:11000 11:12000 12:13000 13:14000 14:15000 15:16000 ]
+[0mInterconnect messages:
+Empty
+
+[0;32mPE: 0. Increment executed: Reg 100->101
+[0m[0;32mPE: 0 send
+{
+	Id: 0, Request: WRITE_REQUEST, Mem addr: 4, Data: 101
+}
+[0mInterconnect receive (0)
+{
+	Id: 0, Request: WRITE_REQUEST, Mem addr: 4, Data: 101
+}
+[0;35mInterconnect/MOESI_broadcast_invalidate/triggered by $:0 T:4/No one else has the data
+[0m[0;32mPE: 1 send
+{
+	Id: 1, Request: WRITE_REQUEST, Mem addr: 12, Data: 200
+}
+[0m[0;32mPE: 2. Increment executed: Reg 300->301
+[0m[1;33mInterconnect/MOESI/$:0 T:4/local transition: Invalid->Modified
+[0m[0;34mCache: 0
+Lines:
+Tag: 4	Valid: 1	Dirty: 1	State: M	Data: 101
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+
+Cache: 1
+Lines:
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+
+Cache: 2
+Lines:
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+
+[0m[1;31mRAM:
+[ 0:1000 1:2000 2:3000 3:4000 4:5000 5:6000 6:7000 7:8000 8:9000 9:10000 10:11000 11:12000 12:13000 13:14000 14:15000 15:16000 ]
+[0mInterconnect receive (1)
+{
+	Id: 1, Request: WRITE_REQUEST, Mem addr: 12, Data: 200
+}
+[0;35mInterconnect/MOESI_broadcast_invalidate/triggered by $:1 T:12/No one else has the data
+[0m[0;32mPE: 0. Increment executed: Reg 101->102
+[0m[0;32mPE: 2 send
+{
+	Id: 2, Request: READ_REQUEST, Mem addr: 14, Data: 301
+}
+[0m[1;33mInterconnect/MOESI/$:1 T:12/local transition: Invalid->Modified
+[0m[0;32mPE: 0. Increment executed: Reg 102->103
+[0m[0;32mPE: 0 send
+{
+	Id: 0, Request: READ_REQUEST, Mem addr: 0, Data: 103
+}
+[0m[0;34mCache: 0
+Lines:
+Tag: 4	Valid: 1	Dirty: 1	State: M	Data: 101
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+
+Cache: 1
+Lines:
+Tag: 12	Valid: 1	Dirty: 1	State: M	Data: 200
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+
+Cache: 2
+Lines:
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+
+[0m[1;31mRAM:
+[ 0:1000 1:2000 2:3000 3:4000 4:5000 5:6000 6:7000 7:8000 8:9000 9:10000 10:11000 11:12000 12:13000 13:14000 14:15000 15:16000 ]
+[0mInterconnect receive (2)
+{
+	Id: 2, Request: READ_REQUEST, Mem addr: 14, Data: 301
+}
+[1;33mInterconnect/MOESI/$:2 T:14/local transition: Invalid->Exclusive
+[0m[0;34mCache: 0
+Lines:
+Tag: 4	Valid: 1	Dirty: 1	State: M	Data: 101
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+
+Cache: 1
+Lines:
+Tag: 12	Valid: 1	Dirty: 1	State: M	Data: 200
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+
+Cache: 2
+Lines:
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 14	Valid: 1	Dirty: 0	State: E	Data: 15000
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+
+[0m[1;31mRAM:
+[ 0:1000 1:2000 2:3000 3:4000 4:5000 5:6000 6:7000 7:8000 8:9000 9:10000 10:11000 11:12000 12:13000 13:14000 14:15000 15:16000 ]
+[0mInterconnect receive (3)
+{
+	Id: 0, Request: READ_REQUEST, Mem addr: 0, Data: 103
+}
+[0;32mPE: 1 send
+{
+	Id: 1, Request: READ_REQUEST, Mem addr: 8, Data: 200
+}
+[0m[0;32mPE: 2 send
+{
+	Id: 2, Request: WRITE_REQUEST, Mem addr: 7, Data: 301
+}
+[0m[0;36mInterconnect/MOESI_check_flush_to_memory/$:0 T:4/Implicit local transition: Modified->Invalid/Flush (101) to RAM[4]
+[0m[1;33mInterconnect/MOESI/$:0 T:0/local transition: Invalid->Exclusive
+[0m[0;34mCache: 0
+Lines:
+Tag: 0	Valid: 1	Dirty: 0	State: E	Data: 1000
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+
+Cache: 1
+Lines:
+Tag: 12	Valid: 1	Dirty: 1	State: M	Data: 200
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+
+Cache: 2
+Lines:
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 14	Valid: 1	Dirty: 0	State: E	Data: 15000
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+
+[0m[1;31mRAM:
+[ 0:1000 1:2000 2:3000 3:4000 4:101 5:6000 6:7000 7:8000 8:9000 9:10000 10:11000 11:12000 12:13000 13:14000 14:15000 15:16000 ]
+[0m[0;32mPE: 0 send
+{
+	Id: 0, Request: READ_REQUEST, Mem addr: 12, Data: 103
+}
+[0mInterconnect receive (4)
+{
+	Id: 1, Request: READ_REQUEST, Mem addr: 8, Data: 200
+}
+[0;36mInterconnect/MOESI_check_flush_to_memory/$:1 T:12/Implicit local transition: Modified->Invalid/Flush (200) to RAM[12]
+[0m[1;33mInterconnect/MOESI/$:1 T:8/local transition: Invalid->Exclusive
+[0m[0;34mCache: 0
+Lines:
+Tag: 0	Valid: 1	Dirty: 0	State: E	Data: 1000
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+
+Cache: 1
+Lines:
+Tag: 8	Valid: 1	Dirty: 0	State: E	Data: 9000
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+
+Cache: 2
+Lines:
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 14	Valid: 1	Dirty: 0	State: E	Data: 15000
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+
+[0m[1;31mRAM:
+[ 0:1000 1:2000 2:3000 3:4000 4:101 5:6000 6:7000 7:8000 8:9000 9:10000 10:11000 11:12000 12:200 13:14000 14:15000 15:16000 ]
+[0mInterconnect receive (5)
+{
+	Id: 2, Request: WRITE_REQUEST, Mem addr: 7, Data: 301
+}
+[0;35mInterconnect/MOESI_broadcast_invalidate/triggered by $:2 T:7/No one else has the data
+[0m[0;32mPE: 1 send
+{
+	Id: 1, Request: WRITE_REQUEST, Mem addr: 14, Data: 200
+}
+[0m[1;33mInterconnect/MOESI/$:2 T:7/local transition: Invalid->Modified
+[0m[0;34mCache: 0
+Lines:
+Tag: 0	Valid: 1	Dirty: 0	State: E	Data: 1000
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+
+Cache: 1
+Lines:
+Tag: 8	Valid: 1	Dirty: 0	State: E	Data: 9000
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+
+Cache: 2
+Lines:
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 14	Valid: 1	Dirty: 0	State: E	Data: 15000
+Tag: 7	Valid: 1	Dirty: 1	State: M	Data: 301
+
+[0m[1;31mRAM:
+[ 0:1000 1:2000 2:3000 3:4000 4:101 5:6000 6:7000 7:8000 8:9000 9:10000 10:11000 11:12000 12:200 13:14000 14:15000 15:16000 ]
+[0mInterconnect receive (6)
+{
+	Id: 0, Request: READ_REQUEST, Mem addr: 12, Data: 103
+}
+[1;33mInterconnect/MOESI_check_flush_to_memory/$:0 T:0/Implicit local transition: Exclusive->Invalid
+[0m[1;33mInterconnect/MOESI/$:0 T:12/local transition: Invalid->Exclusive
+[0m[0;34mCache: 0
+Lines:
+Tag: 12	Valid: 1	Dirty: 0	State: E	Data: 200
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+
+Cache: 1
+Lines:
+Tag: 8	Valid: 1	Dirty: 0	State: E	Data: 9000
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+
+Cache: 2
+Lines:
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 14	Valid: 1	Dirty: 0	State: E	Data: 15000
+Tag: 7	Valid: 1	Dirty: 1	State: M	Data: 301
+
+[0m[1;31mRAM:
+[ 0:1000 1:2000 2:3000 3:4000 4:101 5:6000 6:7000 7:8000 8:9000 9:10000 10:11000 11:12000 12:200 13:14000 14:15000 15:16000 ]
+[0mInterconnect receive (7)
+{
+	Id: 1, Request: WRITE_REQUEST, Mem addr: 14, Data: 200
+}
+[0;35mInterconnect/MOESI_broadcast_invalidate/triggered by $:1 T:14
+[0m[0;32mPE: 0. Increment executed: Reg 103->104
+[0m[0;32mPE: 2 send
+{
+	Id: 2, Request: WRITE_REQUEST, Mem addr: 4, Data: 301
+}
+[0m[0;32mPE: 0. Increment executed: Reg 104->105
+[0m[0;32mPE: 0. Increment executed: Reg 105->106
+[0m[0;32mPE: 0 send
+{
+	Id: 0, Request: WRITE_REQUEST, Mem addr: 14, Data: 106
+}
+[0m[1;33mInterconnect/MOESI_check_flush_to_memory/$:2 T:14/Implicit remote transition: Exclusive->Invalid
+[0m[1;33mInterconnect/MOESI/$:1 T:14/local transition: Invalid->Modified
+[0m[0;34mCache: 0
+Lines:
+Tag: 12	Valid: 1	Dirty: 0	State: E	Data: 200
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+
+Cache: 1
+Lines:
+Tag: 8	Valid: 1	Dirty: 0	State: E	Data: 9000
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 14	Valid: 1	Dirty: 1	State: M	Data: 200
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+
+Cache: 2
+Lines:
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 14	Valid: 0	Dirty: 0	State: I	Data: 15000
+Tag: 7	Valid: 1	Dirty: 1	State: M	Data: 301
+
+[0m[1;31mRAM:
+[ 0:1000 1:2000 2:3000 3:4000 4:101 5:6000 6:7000 7:8000 8:9000 9:10000 10:11000 11:12000 12:200 13:14000 14:15000 15:16000 ]
+[0mInterconnect receive (8)
+{
+	Id: 2, Request: WRITE_REQUEST, Mem addr: 4, Data: 301
+}
+[0;35mInterconnect/MOESI_broadcast_invalidate/triggered by $:2 T:4/No one else has the data
+[0m[0;32mPE: 1 send
+{
+	Id: 1, Request: READ_REQUEST, Mem addr: 7, Data: 200
+}
+[0m[1;33mInterconnect/MOESI/$:2 T:4/local transition: Invalid->Modified
+[0m[0;34mCache: 0
+Lines:
+Tag: 12	Valid: 1	Dirty: 0	State: E	Data: 200
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+
+Cache: 1
+Lines:
+Tag: 8	Valid: 1	Dirty: 0	State: E	Data: 9000
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 14	Valid: 1	Dirty: 1	State: M	Data: 200
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+
+Cache: 2
+Lines:
+Tag: 4	Valid: 1	Dirty: 1	State: M	Data: 301
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 14	Valid: 0	Dirty: 0	State: I	Data: 15000
+Tag: 7	Valid: 1	Dirty: 1	State: M	Data: 301
+
+[0m[1;31mRAM:
+[ 0:1000 1:2000 2:3000 3:4000 4:101 5:6000 6:7000 7:8000 8:9000 9:10000 10:11000 11:12000 12:200 13:14000 14:15000 15:16000 ]
+[0mInterconnect receive (9)
+{
+	Id: 0, Request: WRITE_REQUEST, Mem addr: 14, Data: 106
+}
+[0;35mInterconnect/MOESI_broadcast_invalidate/triggered by $:0 T:14
+[0m[0;36mInterconnect/MOESI_check_flush_to_memory/$:1 T:14/Implicit remote transition: Modified->Invalid/Flush (200) to RAM[14]
+[0m[1;33mInterconnect/MOESI/$:0 T:14/local transition: Invalid->Modified
+[0m[0;34mCache: 0
+Lines:
+Tag: 12	Valid: 1	Dirty: 0	State: E	Data: 200
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 14	Valid: 1	Dirty: 1	State: M	Data: 106
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+
+Cache: 1
+Lines:
+Tag: 8	Valid: 1	Dirty: 0	State: E	Data: 9000
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 14	Valid: 0	Dirty: 0	State: I	Data: 200
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+
+Cache: 2
+Lines:
+Tag: 4	Valid: 1	Dirty: 1	State: M	Data: 301
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 14	Valid: 0	Dirty: 0	State: I	Data: 15000
+Tag: 7	Valid: 1	Dirty: 1	State: M	Data: 301
+
+[0m[1;31mRAM:
+[ 0:1000 1:2000 2:3000 3:4000 4:101 5:6000 6:7000 7:8000 8:9000 9:10000 10:11000 11:12000 12:200 13:14000 14:200 15:16000 ]
+[0mInterconnect receive (10)
+{
+	Id: 1, Request: READ_REQUEST, Mem addr: 7, Data: 200
+}
+[0;35mInterconnect/MOESI_set_remote_share_states/triggered by $:1 T:7
+[0m[0;32mPE:0 END
+
+[0m[1;33mInterconnect/MOESI_check_flush_to_memory/$:2 T:7/Implicit remote transition: Modified->Owned
+[0m[0;35mInterconnect/MOESI/$:1 T:7/Data (301) move between caches: 2 -> 1
+[0m[1;33mInterconnect/MOESI/$:1 T:7/local transition: Invalid->Shared
+[0m[0;32mPE: 2 send
+{
+	Id: 2, Request: READ_REQUEST, Mem addr: 8, Data: 301
+}
+[0m[0;34mCache: 0
+Lines:
+Tag: 12	Valid: 1	Dirty: 0	State: E	Data: 200
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 14	Valid: 1	Dirty: 1	State: M	Data: 106
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+
+Cache: 1
+Lines:
+Tag: 8	Valid: 1	Dirty: 0	State: E	Data: 9000
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 14	Valid: 0	Dirty: 0	State: I	Data: 200
+Tag: 7	Valid: 1	Dirty: 1	State: S	Data: 301
+
+Cache: 2
+Lines:
+Tag: 4	Valid: 1	Dirty: 1	State: M	Data: 301
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 14	Valid: 0	Dirty: 0	State: I	Data: 15000
+Tag: 7	Valid: 1	Dirty: 1	State: O	Data: 301
+
+[0m[1;31mRAM:
+[ 0:1000 1:2000 2:3000 3:4000 4:101 5:6000 6:7000 7:8000 8:9000 9:10000 10:11000 11:12000 12:200 13:14000 14:200 15:16000 ]
+[0m[0;32mPE: 1. Increment executed: Reg 200->201
+[0m[0;32mPE: 1 send
+{
+	Id: 1, Request: READ_REQUEST, Mem addr: 1, Data: 201
+}
+[0mInterconnect receive (11)
+{
+	Id: 2, Request: READ_REQUEST, Mem addr: 8, Data: 301
+}
+[0;35mInterconnect/MOESI_set_remote_share_states/triggered by $:2 T:8
+[0m[1;33mInterconnect/MOESI_check_flush_to_memory/$:1 T:8/Implicit remote transition: Exclusive->Shared
+[0m[0;36mInterconnect/MOESI_check_flush_to_memory/$:2 T:4/Implicit local transition: Modified->Invalid/Flush (301) to RAM[4]
+[0m[0;35mInterconnect/MOESI/$:2 T:8/Data (9000) move between caches: 1 -> 2
+[0m[1;33mInterconnect/MOESI/$:2 T:8/local transition: Invalid->Shared
+[0m[0;34mCache: 0
+Lines:
+Tag: 12	Valid: 1	Dirty: 0	State: E	Data: 200
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 14	Valid: 1	Dirty: 1	State: M	Data: 106
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+
+Cache: 1
+Lines:
+Tag: 8	Valid: 1	Dirty: 0	State: S	Data: 9000
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 14	Valid: 0	Dirty: 0	State: I	Data: 200
+Tag: 7	Valid: 1	Dirty: 1	State: S	Data: 301
+
+Cache: 2
+Lines:
+Tag: 8	Valid: 1	Dirty: 0	State: S	Data: 9000
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 14	Valid: 0	Dirty: 0	State: I	Data: 15000
+Tag: 7	Valid: 1	Dirty: 1	State: O	Data: 301
+
+[0m[1;31mRAM:
+[ 0:1000 1:2000 2:3000 3:4000 4:301 5:6000 6:7000 7:8000 8:9000 9:10000 10:11000 11:12000 12:200 13:14000 14:200 15:16000 ]
+[0m[0;32mPE: 2 send
+{
+	Id: 2, Request: WRITE_REQUEST, Mem addr: 4, Data: 301
+}
+[0mInterconnect receive (12)
+{
+	Id: 1, Request: READ_REQUEST, Mem addr: 1, Data: 201
+}
+[1;33mInterconnect/MOESI/$:1 T:1/local transition: Invalid->Exclusive
+[0m[0;34mCache: 0
+Lines:
+Tag: 12	Valid: 1	Dirty: 0	State: E	Data: 200
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 14	Valid: 1	Dirty: 1	State: M	Data: 106
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+
+Cache: 1
+Lines:
+Tag: 8	Valid: 1	Dirty: 0	State: S	Data: 9000
+Tag: 1	Valid: 1	Dirty: 0	State: E	Data: 2000
+Tag: 14	Valid: 0	Dirty: 0	State: I	Data: 200
+Tag: 7	Valid: 1	Dirty: 1	State: S	Data: 301
+
+Cache: 2
+Lines:
+Tag: 8	Valid: 1	Dirty: 0	State: S	Data: 9000
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 14	Valid: 0	Dirty: 0	State: I	Data: 15000
+Tag: 7	Valid: 1	Dirty: 1	State: O	Data: 301
+
+[0m[1;31mRAM:
+[ 0:1000 1:2000 2:3000 3:4000 4:301 5:6000 6:7000 7:8000 8:9000 9:10000 10:11000 11:12000 12:200 13:14000 14:200 15:16000 ]
+[0mInterconnect receive (13)
+{
+	Id: 2, Request: WRITE_REQUEST, Mem addr: 4, Data: 301
+}
+[0;35mInterconnect/MOESI_broadcast_invalidate/triggered by $:2 T:4/No one else has the data
+[0m[0;32mPE: 1 send
+{
+	Id: 1, Request: READ_REQUEST, Mem addr: 6, Data: 201
+}
+[0m[1;33mInterconnect/MOESI_check_flush_to_memory/$:2 T:8/Implicit local transition: Shared->Invalid
+[0m[1;33mInterconnect/MOESI/$:2 T:4/local transition: Invalid->Modified
+[0m[0;34mCache: 0
+Lines:
+Tag: 12	Valid: 1	Dirty: 0	State: E	Data: 200
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 14	Valid: 1	Dirty: 1	State: M	Data: 106
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+
+Cache: 1
+Lines:
+Tag: 8	Valid: 1	Dirty: 0	State: S	Data: 9000
+Tag: 1	Valid: 1	Dirty: 0	State: E	Data: 2000
+Tag: 14	Valid: 0	Dirty: 0	State: I	Data: 200
+Tag: 7	Valid: 1	Dirty: 1	State: S	Data: 301
+
+Cache: 2
+Lines:
+Tag: 4	Valid: 1	Dirty: 1	State: M	Data: 301
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 14	Valid: 0	Dirty: 0	State: I	Data: 15000
+Tag: 7	Valid: 1	Dirty: 1	State: O	Data: 301
+
+[0m[1;31mRAM:
+[ 0:1000 1:2000 2:3000 3:4000 4:301 5:6000 6:7000 7:8000 8:9000 9:10000 10:11000 11:12000 12:200 13:14000 14:200 15:16000 ]
+[0m[0;32mPE: 2 send
+{
+	Id: 2, Request: WRITE_REQUEST, Mem addr: 14, Data: 301
+}
+[0mInterconnect receive (14)
+{
+	Id: 1, Request: READ_REQUEST, Mem addr: 6, Data: 201
+}
+[1;33mInterconnect/MOESI/$:1 T:6/local transition: Invalid->Exclusive
+[0m[0;34mCache: 0
+Lines:
+Tag: 12	Valid: 1	Dirty: 0	State: E	Data: 200
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 14	Valid: 1	Dirty: 1	State: M	Data: 106
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+
+Cache: 1
+Lines:
+Tag: 8	Valid: 1	Dirty: 0	State: S	Data: 9000
+Tag: 1	Valid: 1	Dirty: 0	State: E	Data: 2000
+Tag: 6	Valid: 1	Dirty: 0	State: E	Data: 7000
+Tag: 7	Valid: 1	Dirty: 1	State: S	Data: 301
+
+Cache: 2
+Lines:
+Tag: 4	Valid: 1	Dirty: 1	State: M	Data: 301
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 14	Valid: 0	Dirty: 0	State: I	Data: 15000
+Tag: 7	Valid: 1	Dirty: 1	State: O	Data: 301
+
+[0m[1;31mRAM:
+[ 0:1000 1:2000 2:3000 3:4000 4:301 5:6000 6:7000 7:8000 8:9000 9:10000 10:11000 11:12000 12:200 13:14000 14:200 15:16000 ]
+[0mInterconnect receive (15)
+{
+	Id: 2, Request: WRITE_REQUEST, Mem addr: 14, Data: 301
+}
+[0;35mInterconnect/MOESI_broadcast_invalidate/triggered by $:2 T:14
+[0m[0;36mInterconnect/MOESI_check_flush_to_memory/$:0 T:14/Implicit remote transition: Modified->Invalid/Flush (106) to RAM[14]
+[0m[1;33mInterconnect/MOESI/$:2 T:14/local transition: Invalid->Modified
+[0m[0;32mPE: 1 send
+{
+	Id: 1, Request: WRITE_REQUEST, Mem addr: 13, Data: 201
+}
+[0m[0;34mCache: 0
+Lines:
+Tag: 12	Valid: 1	Dirty: 0	State: E	Data: 200
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 14	Valid: 0	Dirty: 0	State: I	Data: 106
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+
+Cache: 1
+Lines:
+Tag: 8	Valid: 1	Dirty: 0	State: S	Data: 9000
+Tag: 1	Valid: 1	Dirty: 0	State: E	Data: 2000
+Tag: 6	Valid: 1	Dirty: 0	State: E	Data: 7000
+Tag: 7	Valid: 1	Dirty: 1	State: S	Data: 301
+
+Cache: 2
+Lines:
+Tag: 4	Valid: 1	Dirty: 1	State: M	Data: 301
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 14	Valid: 1	Dirty: 1	State: M	Data: 301
+Tag: 7	Valid: 1	Dirty: 1	State: O	Data: 301
+
+[0m[1;31mRAM:
+[ 0:1000 1:2000 2:3000 3:4000 4:301 5:6000 6:7000 7:8000 8:9000 9:10000 10:11000 11:12000 12:200 13:14000 14:106 15:16000 ]
+[0m[0;32mPE: 2. Increment executed: Reg 301->302
+[0m[0;32mPE: 2 send
+{
+	Id: 2, Request: READ_REQUEST, Mem addr: 1, Data: 302
+}
+[0mInterconnect receive (16)
+{
+	Id: 1, Request: WRITE_REQUEST, Mem addr: 13, Data: 201
+}
+[0;35mInterconnect/MOESI_broadcast_invalidate/triggered by $:1 T:13/No one else has the data
+[0m[1;33mInterconnect/MOESI_check_flush_to_memory/$:1 T:1/Implicit local transition: Exclusive->Invalid
+[0m[1;33mInterconnect/MOESI/$:1 T:13/local transition: Invalid->Modified
+[0m[0;34mCache: 0
+Lines:
+Tag: 12	Valid: 1	Dirty: 0	State: E	Data: 200
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 14	Valid: 0	Dirty: 0	State: I	Data: 106
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+
+Cache: 1
+Lines:
+Tag: 8	Valid: 1	Dirty: 0	State: S	Data: 9000
+Tag: 13	Valid: 1	Dirty: 1	State: M	Data: 201
+Tag: 6	Valid: 1	Dirty: 0	State: E	Data: 7000
+Tag: 7	Valid: 1	Dirty: 1	State: S	Data: 301
+
+Cache: 2
+Lines:
+Tag: 4	Valid: 1	Dirty: 1	State: M	Data: 301
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 14	Valid: 1	Dirty: 1	State: M	Data: 301
+Tag: 7	Valid: 1	Dirty: 1	State: O	Data: 301
+
+[0m[1;31mRAM:
+[ 0:1000 1:2000 2:3000 3:4000 4:301 5:6000 6:7000 7:8000 8:9000 9:10000 10:11000 11:12000 12:200 13:14000 14:106 15:16000 ]
+[0m[0;32mPE: 1 send
+{
+	Id: 1, Request: READ_REQUEST, Mem addr: 9, Data: 201
+}
+[0mInterconnect receive (17)
+{
+	Id: 2, Request: READ_REQUEST, Mem addr: 1, Data: 302
+}
+[1;33mInterconnect/MOESI/$:2 T:1/local transition: Invalid->Exclusive
+[0m[0;34mCache: 0
+Lines:
+Tag: 12	Valid: 1	Dirty: 0	State: E	Data: 200
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 14	Valid: 0	Dirty: 0	State: I	Data: 106
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+
+Cache: 1
+Lines:
+Tag: 8	Valid: 1	Dirty: 0	State: S	Data: 9000
+Tag: 13	Valid: 1	Dirty: 1	State: M	Data: 201
+Tag: 6	Valid: 1	Dirty: 0	State: E	Data: 7000
+Tag: 7	Valid: 1	Dirty: 1	State: S	Data: 301
+
+Cache: 2
+Lines:
+Tag: 4	Valid: 1	Dirty: 1	State: M	Data: 301
+Tag: 1	Valid: 1	Dirty: 0	State: E	Data: 2000
+Tag: 14	Valid: 1	Dirty: 1	State: M	Data: 301
+Tag: 7	Valid: 1	Dirty: 1	State: O	Data: 301
+
+[0m[1;31mRAM:
+[ 0:1000 1:2000 2:3000 3:4000 4:301 5:6000 6:7000 7:8000 8:9000 9:10000 10:11000 11:12000 12:200 13:14000 14:106 15:16000 ]
+[0m[0;32mPE: 2. Increment executed: Reg 302->303
+[0m[0;32mPE:2 END
+
+[0mInterconnect receive (18)
+{
+	Id: 1, Request: READ_REQUEST, Mem addr: 9, Data: 201
+}
+[0;36mInterconnect/MOESI_check_flush_to_memory/$:1 T:13/Implicit local transition: Modified->Invalid/Flush (201) to RAM[13]
+[0m[1;33mInterconnect/MOESI/$:1 T:9/local transition: Invalid->Exclusive
+[0m[0;34mCache: 0
+Lines:
+Tag: 12	Valid: 1	Dirty: 0	State: E	Data: 200
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 14	Valid: 0	Dirty: 0	State: I	Data: 106
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+
+Cache: 1
+Lines:
+Tag: 8	Valid: 1	Dirty: 0	State: S	Data: 9000
+Tag: 9	Valid: 1	Dirty: 0	State: E	Data: 10000
+Tag: 6	Valid: 1	Dirty: 0	State: E	Data: 7000
+Tag: 7	Valid: 1	Dirty: 1	State: S	Data: 301
+
+Cache: 2
+Lines:
+Tag: 4	Valid: 1	Dirty: 1	State: M	Data: 301
+Tag: 1	Valid: 1	Dirty: 0	State: E	Data: 2000
+Tag: 14	Valid: 1	Dirty: 1	State: M	Data: 301
+Tag: 7	Valid: 1	Dirty: 1	State: O	Data: 301
+
+[0m[1;31mRAM:
+[ 0:1000 1:2000 2:3000 3:4000 4:301 5:6000 6:7000 7:8000 8:9000 9:10000 10:11000 11:12000 12:200 13:201 14:106 15:16000 ]
+[0m[0;32mPE: 1 send
+{
+	Id: 1, Request: WRITE_REQUEST, Mem addr: 0, Data: 201
+}
+[0mInterconnect receive (19)
+{
+	Id: 1, Request: WRITE_REQUEST, Mem addr: 0, Data: 201
+}
+[0;35mInterconnect/MOESI_broadcast_invalidate/triggered by $:1 T:0/No one else has the data
+[0m[1;33mInterconnect/MOESI_check_flush_to_memory/$:1 T:8/Implicit local transition: Shared->Invalid
+[0m[1;33mInterconnect/MOESI/$:1 T:0/local transition: Invalid->Modified
+[0m[0;34mCache: 0
+Lines:
+Tag: 12	Valid: 1	Dirty: 0	State: E	Data: 200
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 14	Valid: 0	Dirty: 0	State: I	Data: 106
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+
+Cache: 1
+Lines:
+Tag: 0	Valid: 1	Dirty: 1	State: M	Data: 201
+Tag: 9	Valid: 1	Dirty: 0	State: E	Data: 10000
+Tag: 6	Valid: 1	Dirty: 0	State: E	Data: 7000
+Tag: 7	Valid: 1	Dirty: 1	State: S	Data: 301
+
+Cache: 2
+Lines:
+Tag: 4	Valid: 1	Dirty: 1	State: M	Data: 301
+Tag: 1	Valid: 1	Dirty: 0	State: E	Data: 2000
+Tag: 14	Valid: 1	Dirty: 1	State: M	Data: 301
+Tag: 7	Valid: 1	Dirty: 1	State: O	Data: 301
+
+[0m[1;31mRAM:
+[ 0:1000 1:2000 2:3000 3:4000 4:301 5:6000 6:7000 7:8000 8:9000 9:10000 10:11000 11:12000 12:200 13:201 14:106 15:16000 ]
+[0m[0;32mPE:1 END
+
+[0m[0;32mInterconnect ENDED
+
+[0m
+
+////////////////////////////////////////////////////////
+
+
+
+////////////////////////////////////////////////////////
+
+
+
+////////////////////////////////////////////////////////
+
+PE: 0
+Instructions:
+Reg: 106
+MT_done: 1
+
+PE: 1
+Instructions:
+Reg: 201
+MT_done: 1
+
+PE: 2
+Instructions:
+Reg: 303
+MT_done: 1
+
+[0;34mCache: 0
+Lines:
+Tag: 12	Valid: 1	Dirty: 0	State: E	Data: 200
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+Tag: 14	Valid: 0	Dirty: 0	State: I	Data: 106
+Tag: 0	Valid: 0	Dirty: 0	State: I	Data: 0
+
+Cache: 1
+Lines:
+Tag: 0	Valid: 1	Dirty: 1	State: M	Data: 201
+Tag: 9	Valid: 1	Dirty: 0	State: E	Data: 10000
+Tag: 6	Valid: 1	Dirty: 0	State: E	Data: 7000
+Tag: 7	Valid: 1	Dirty: 1	State: S	Data: 301
+
+Cache: 2
+Lines:
+Tag: 4	Valid: 1	Dirty: 1	State: M	Data: 301
+Tag: 1	Valid: 1	Dirty: 0	State: E	Data: 2000
+Tag: 14	Valid: 1	Dirty: 1	State: M	Data: 301
+Tag: 7	Valid: 1	Dirty: 1	State: O	Data: 301
+
+[0mInterconnect messages:
+Empty
+
+[1;31mRAM:
+[ 0:1000 1:2000 2:3000 3:4000 4:301 5:6000 6:7000 7:8000 8:9000 9:10000 10:11000 11:12000 12:200 13:201 14:106 15:16000 ]
+[0mPEs: 3
+Instructions per core: 10
+Blocks per cache: 4
+Blocks per RAM: 16
+Increments counter: 10
+Interconnect read requests counter: 10
+Interconnect write requests counter: 10
+RAM reads counter: 8
+RAM writes counter: 6
+Cache data shares counter: 2
+Invalidates counter: 11
+
+MT History:
+
+End MOESI!
+
