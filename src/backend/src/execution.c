@@ -800,7 +800,6 @@ void PE_execute(int id)
 {
     PE *pe = PEs[id];
     Instruction* instruction = dequeue(pe->instructions);
-
     switch (instruction->type)
     {
         case Read:
@@ -947,6 +946,9 @@ void initialize()
     construct_PEs(PEs);
     add_initial_cores_state(PEs);
 
+    PE* copy_PEs;
+
+
     // // /// Build caches
     initialize_Caches(caches);
     construct_Caches(caches);
@@ -964,9 +966,13 @@ void initialize()
 }
 
 ///Main
-void start_execution(bool is_MESI_)
+char* start_execution()
 {
-    is_MESI = is_MESI_;
+
+    cJSON* root = cJSON_CreateObject();
+
+    start_events_recolection();
+    is_MESI = true;
     initialize();
 
     /// Copiadero
@@ -1005,12 +1011,16 @@ void start_execution(bool is_MESI_)
     printf("End MESI!\n");
     printf("\n");
 
+    cJSON* mesi_results = finish_events_recolection();
+
+    cJSON_AddItemToObject(root, "mesi", mesi_results);
+
+
 
 
     /// Cambio de protocolo
+    start_events_recolection();
     is_MESI = false;
-
-
     /// Reestablecedero
     initialize();
 
@@ -1049,4 +1059,15 @@ void start_execution(bool is_MESI_)
     printf("\n");
     printf("End MOESI!\n");
     printf("\n");
+
+ 
+    cJSON* moesi_results = finish_events_recolection();
+
+
+    cJSON_AddItemToObject(root, "mesi", mesi_results);
+    cJSON_AddItemToObject(root, "moesi", moesi_results);
+
+    return cJSON_PrintUnformatted(root);
+
+
 }

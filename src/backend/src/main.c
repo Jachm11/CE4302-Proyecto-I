@@ -53,23 +53,8 @@ char* process_command(char* buffer){
             // Start execution
             printf("command %s \n", command);
 
-            char* protocol = cJSON_GetObjectItem(client_command, "protocol")->valuestring;
-            if(strcmp(protocol, "MESI") == 0){
-                start_events_recolection();
-                start_execution(true);
-                cJSON* result = finish_events_recolection();
-                return cJSON_PrintUnformatted(result);
-            }
-
-            if(strcmp(protocol, "MOESI") == 0){
-                start_events_recolection();
-                start_execution(false);
-                cJSON* result = finish_events_recolection();
-                return cJSON_PrintUnformatted(result);
-            }
-            else {
-                // Invalid protocol
-            }
+            char* result = start_execution();
+            return result;
         } 
         else {
             // Invalid command
@@ -79,11 +64,6 @@ char* process_command(char* buffer){
 
 int main(){
     srand(time(NULL));
-
-    start_events_recolection();
-    start_execution(true);
-    cJSON* result = finish_events_recolection();
-    return 0;
 
     create_socket("127.0.0.1", 4000);
     char buffer[MAX_BUFFER_SIZE];

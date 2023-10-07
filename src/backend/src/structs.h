@@ -177,7 +177,7 @@ void printf_color_reset();
 
 
 // Execution
-void start_execution(bool is_MESI_);
+char* start_execution();
 
 
 
