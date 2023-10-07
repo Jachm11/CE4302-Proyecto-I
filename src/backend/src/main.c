@@ -52,9 +52,11 @@ char* process_command(char* buffer){
 
             // Start execution
             printf("command %s \n", command);
-
             char* result = start_execution();
-            return result;
+            FILE* file = fopen("/tmp/cache_exec_arqui.txt", "w");
+            fwrite(result, 1, strlen(result), file);
+            fclose(file);
+            return "ok";
         } 
         else {
             // Invalid command
@@ -101,14 +103,13 @@ int main(){
         // }
         char *response = process_command(buffer);
 
-        if (send(client_socket, response, strlen(response), 0) == -1) {
+        char* response = process_command(buffer);
+
+        if (send(client_socket, response, strlen(response), 0) < 0) {
                 perror("Send failed");
                 close(client_socket);
                 break; // Close the connection if send fails
         }
-
-        free(response);
-
         //close(client_socket);
     }
 
