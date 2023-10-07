@@ -90,4 +90,4 @@ o bien, puedes dirijirse al directorio `bin` y ejecute el siguiente comando
 ## Docs 
 
 [Manual de usuario](./docs/) <br>
-[White paper](./docs/) <br>
+[White paper](./docs/white_paper) <br>
